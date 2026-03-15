@@ -331,6 +331,7 @@
       gap: 8px;
       cursor: pointer;
       transition: background 0.1s, border-color 0.1s;
+      position: relative;
     }
     .stat-item:hover {
       background: #e6d9cd;
@@ -343,6 +344,14 @@
     .stat-item.sorted-desc {
       background: #d6e2da;
       border-color: #96b1a2;
+    }
+    .stat-item.sorted-asc::after {
+      content: " ↑";
+      font-weight: bold;
+    }
+    .stat-item.sorted-desc::after {
+      content: " ↓";
+      font-weight: bold;
     }
 
     .stat-item strong {
@@ -516,7 +525,8 @@
     // state for sorting per keyword
     let currentGroups = {};
     let currentMode = 'depan';
-    let sortDirections = {}; // stores 'asc' or 'desc' per keyword
+    let sortDirections = {}; // stores 'asc', 'desc', or undefined per keyword
+    let originalGroups = {}; // store unsorted groups for reset
 
     const dictLoadingEl = document.getElementById('dict-loading');
     const formArea = document.getElementById('form-area');
@@ -594,29 +604,52 @@
         total += groups[kw].length;
         const chip = document.createElement('span');
         chip.className = 'stat-item';
-        if (sortDirections[kw] === 'asc') chip.classList.add('sorted-asc');
-        else if (sortDirections[kw] === 'desc') chip.classList.add('sorted-desc');
+        
+        // Add sorting indicator classes
+        if (sortDirections[kw] === 'asc') {
+          chip.classList.add('sorted-asc');
+        } else if (sortDirections[kw] === 'desc') {
+          chip.classList.add('sorted-desc');
+        }
 
         chip.innerHTML = `“${kw}” <strong>${groups[kw].length}</strong>`;
+        
         // attach click to toggle sort for this keyword
-chip.addEventListener('click', (e) => {
-  e.stopPropagation();
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
 
-  // cycle through: undefined -> asc -> desc -> undefined
-  const current = sortDirections[kw];
-  if (!current) sortDirections[kw] = 'asc';
-  else if (current === 'asc') sortDirections[kw] = 'desc';
-  else sortDirections[kw] = undefined;
+          // Get current groups for this keyword
+          const currentWords = groups[kw];
+          const originalWords = originalGroups[kw];
+          
+          // cycle through: undefined -> asc -> desc -> undefined
+          const current = sortDirections[kw];
+          let newDirection;
+          
+          if (!current) {
+            newDirection = 'asc';
+          } else if (current === 'asc') {
+            newDirection = 'desc';
+          } else {
+            newDirection = undefined;
+          }
+          
+          sortDirections[kw] = newDirection;
 
-  // apply sort only if defined
-  if (sortDirections[kw] === 'asc') {
-    groups[kw].sort((a, b) => a.localeCompare(b));
-  } else if (sortDirections[kw] === 'desc') {
-    groups[kw].sort((a, b) => b.localeCompare(a));
-  }
+          // Apply sorting based on new direction
+          if (newDirection === 'asc') {
+            groups[kw] = [...currentWords].sort((a, b) => a.localeCompare(b));
+          } else if (newDirection === 'desc') {
+            groups[kw] = [...currentWords].sort((a, b) => b.localeCompare(a));
+          } else {
+            // Reset to original unsorted order
+            groups[kw] = [...originalWords];
+          }
 
-  renderResults(groups, mode);
-});
+          // Re-render with updated sort
+          renderResults(groups, mode);
+        });
+        
         statsBar.appendChild(chip);
       });
 
@@ -666,6 +699,13 @@ chip.addEventListener('click', (e) => {
           else if (mode === 'belakang') groups[kw] = dictionary.filter(w => w.endsWith(kw));
           else groups[kw] = dictionary.filter(w => w.includes(kw));
         });
+        
+        // Store original unsorted groups
+        originalGroups = {};
+        Object.keys(groups).forEach(key => {
+          originalGroups[key] = [...groups[key]];
+        });
+        
         // reset sort directions untuk keywords baru
         sortDirections = {};
         currentGroups = groups;
