@@ -599,22 +599,26 @@
 
         chip.innerHTML = `“${kw}” <strong>${groups[kw].length}</strong>`;
         // attach click to toggle sort for this keyword
-        chip.addEventListener('click', (e) => {
-          e.stopPropagation();
-          // toggle sort: asc -> desc -> none (kosongkan)
-          if (!sortDirections[kw] || sortDirections[kw] === 'desc') sortDirections[kw] = 'asc';
-          else if (sortDirections[kw] === 'asc') sortDirections[kw] = 'desc';
-          // else -> asc (already handled)
+chip.addEventListener('click', (e) => {
+  e.stopPropagation();
 
-          // apply sort to groups[kw] based on direction
-          if (sortDirections[kw] === 'asc') {
-            groups[kw].sort((a, b) => a.localeCompare(b));
-          } else if (sortDirections[kw] === 'desc') {
-            groups[kw].sort((a, b) => b.localeCompare(a));
-          }
-          // re-render with same groups & mode
-          renderResults(groups, mode);
-        });
+  // toggle sort cycle: none -> asc -> desc -> none
+  if (!sortDirections[kw]) sortDirections[kw] = 'asc';
+  else if (sortDirections[kw] === 'asc') sortDirections[kw] = 'desc';
+  else sortDirections[kw] = null;
+
+  // clone original group for this keyword to avoid mutation
+  let words = [...currentGroups[kw]];
+  if (sortDirections[kw] === 'asc') {
+    words.sort((a,b) => a.localeCompare(b));
+  } else if (sortDirections[kw] === 'desc') {
+    words.sort((a,b) => b.localeCompare(a));
+  }
+  currentGroups[kw] = words;
+
+  // re-render with updated groups & mode
+  renderResults(currentGroups, currentMode);
+});
         statsBar.appendChild(chip);
       });
 
