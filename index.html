@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Fontawesome for crisp icons (optional but adds life) -->
+  <!-- Fontawesome 6 (Free) - fixed version -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -31,7 +31,7 @@
 
     /* main card — softer, floaty, modern */
     .glass-panel {
-      max-width: 880px;
+      max-width: 1000px;
       width: 100%;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.8);
@@ -67,7 +67,7 @@
     }
 
     .pill i {
-      font-size: 0.55rem;
+      font-size: 0.8rem;
       color: #6a5e51;
     }
 
@@ -356,12 +356,12 @@
     .stat-item {
       background: #f4ece4;
       border-radius: 60px;
-      padding: 0.4rem 1.2rem 0.4rem 1.6rem;
+      padding: 0.4rem 1.2rem 0.4rem 1.2rem;
       font-size: 0.9rem;
       border: 1px solid #e0d2c2;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       cursor: pointer;
       transition: all 0.15s;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
@@ -371,7 +371,6 @@
     .stat-item:hover {
       background: #e2d4c6;
       border-color: #b99f89;
-      padding-right: 1.6rem;
     }
 
     .stat-item.sorted-asc, .stat-item.sorted-desc {
@@ -380,19 +379,20 @@
       font-weight: 600;
     }
 
-    .stat-item.sorted-asc i, .stat-item.sorted-desc i {
-      opacity: 1 !important;
-    }
-
     .stat-item i {
       opacity: 0.6;
-      font-size: 0.7rem;
+      font-size: 0.8rem;
+      width: 16px;
+    }
+
+    .stat-item.sorted-asc i, .stat-item.sorted-desc i {
+      opacity: 1;
     }
 
     .stat-item strong {
       background: white;
       border-radius: 30px;
-      padding: 0.2rem 0.9rem;
+      padding: 0.2rem 0.7rem;
       font-weight: 700;
       color: #285c5f;
       margin-left: 4px;
@@ -452,6 +452,8 @@
       transition: 0.12s;
       box-shadow: 0 1px 4px rgba(0,0,0,0.02);
       cursor: default;
+      word-break: break-word;
+      max-width: 100%;
     }
 
     .word-tile:hover {
@@ -484,6 +486,7 @@
     }
 
     footer b { color: #5b786e; font-weight: 600; }
+    footer i { margin-right: 4px; }
   </style>
 </head>
 <body>
@@ -509,9 +512,9 @@
     <div class="loading-bar-smooth" id="loading-bar"></div>
 
     <div class="button-cluster">
-      <button class="mode-btn depan" id="btn-depan"><i class="fa-regular fa-arrow-left-long"></i> Berawalan</button>
-      <button class="mode-btn belakang" id="btn-belakang"><i class="fa-regular fa-arrow-right-long"></i> Berakhiran</button>
-      <button class="mode-btn semua" id="btn-semua"><i class="fa-regular fa-circle"></i> Mengandung</button>
+      <button class="mode-btn depan" id="btn-depan"><i class="fa-solid fa-arrow-left-long"></i> Berawalan</button>
+      <button class="mode-btn belakang" id="btn-belakang"><i class="fa-solid fa-arrow-right-long"></i> Berakhiran</button>
+      <button class="mode-btn semua" id="btn-semua"><i class="fa-solid fa-circle"></i> Mengandung</button>
     </div>
   </div>
 
@@ -536,12 +539,17 @@
 
     let currentGroups = {};
     let currentMode = 'depan';
-    let sortDirections = {};     // menyimpan arah urut per keyword (asc, desc, undefined)
+    let sortDirections = {};
 
     const dictLoadingEl = document.getElementById('dict-loading');
     const formArea = document.getElementById('form-area');
     const dictCountSpan = document.getElementById('dict-count');
     const footerDictSpan = document.getElementById('footer-dict-count');
+    const resultsSection = document.getElementById('results-section');
+    const resultsTitle = document.getElementById('results-title');
+    const resultsCount = document.getElementById('results-count');
+    const statsBar = document.getElementById('stats-bar');
+    const resultsBox = document.getElementById('results-box');
 
     // Bersihkan kata: hapus spasi, strip, ubah ke lowercase
     function cleanWord(word) {
@@ -554,10 +562,14 @@
         const text = await resp.text();
         dictionary = text.split('\n')
                          .map(w => cleanWord(w))
-                         .filter(Boolean);
+                         .filter(w => w.length > 0);
+        
+        // Hapus duplikat
+        dictionary = [...new Set(dictionary)];
+        
         dictCountSpan.textContent = dictionary.length.toLocaleString('id');
         footerDictSpan.textContent = dictionary.length.toLocaleString('id');
-        dictLoadingEl.innerHTML = `<i class="fa-regular fa-check-circle" style="color: #618b7e;"></i> kamus siap · ${dictionary.length.toLocaleString('id')} kata`;
+        dictLoadingEl.innerHTML = `<i class="fa-regular fa-circle-check"></i> kamus siap · ${dictionary.length.toLocaleString('id')} kata`;
         formArea.style.display = 'block';
       } catch (err) {
         dictLoadingEl.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> gagal muat kamus, refresh';
@@ -589,6 +601,7 @@
         idx = word.indexOf(query);
       }
       if (idx === -1) return word;
+      
       const prefix = word.slice(0, idx);
       const match = word.slice(idx, idx + query.length);
       const suffix = word.slice(idx + query.length);
@@ -597,90 +610,92 @@
 
     // render dengan sort per kata kunci
     function renderResults(groups, mode) {
-      const section = document.getElementById('results-section');
-      const box = document.getElementById('results-box');
-      const statsBar = document.getElementById('stats-bar');
       const titleMap = { depan: 'Berawalan', belakang: 'Berakhiran', semua: 'Mengandung' };
-      document.getElementById('results-title').innerText = titleMap[mode] + ' ⋮';
+      resultsTitle.innerText = titleMap[mode] + ' ⋮';
 
       let total = 0;
       statsBar.innerHTML = '';
 
       const keywords = Object.keys(groups);
+      
+      // Hitung total dan buat chip untuk setiap keyword
       keywords.forEach(kw => {
         total += groups[kw].length;
 
         const chip = document.createElement('span');
         chip.className = 'stat-item';
+        
+        // Tentukan ikon berdasarkan arah sorting
+        let directionIcon = '';
         if (sortDirections[kw] === 'asc') {
           chip.classList.add('sorted-asc');
+          directionIcon = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
         } else if (sortDirections[kw] === 'desc') {
           chip.classList.add('sorted-desc');
+          directionIcon = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
+        } else {
+          directionIcon = '<i class="fa-solid fa-arrows-up-down"></i>';
         }
 
-        // icon arah
-        let directionIcon = '';
-        if (sortDirections[kw] === 'asc') directionIcon = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
-        else if (sortDirections[kw] === 'desc') directionIcon = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
-        else directionIcon = '<i class="fa-solid fa-arrows-up-down" style="opacity:0.3;"></i>';
-
-        chip.innerHTML = `${directionIcon} “${kw}” <strong>${groups[kw].length}</strong>`;
+        chip.innerHTML = `${directionIcon} "${kw}" <strong>${groups[kw].length}</strong>`;
 
         // event toggle sorting
         chip.addEventListener('click', (e) => {
           e.stopPropagation();
           const current = sortDirections[kw];
-          if (!current) sortDirections[kw] = 'asc';
-          else if (current === 'asc') sortDirections[kw] = 'desc';
-          else sortDirections[kw] = undefined;  // back to default (insertion order)
-
-          // terapkan sorting hanya jika arah didefinisikan
-          if (sortDirections[kw] === 'asc') {
+          
+          // Cycle: undefined -> asc -> desc -> undefined
+          if (!current) {
+            sortDirections[kw] = 'asc';
             groups[kw].sort((a, b) => a.localeCompare(b));
-          } else if (sortDirections[kw] === 'desc') {
+          } else if (current === 'asc') {
+            sortDirections[kw] = 'desc';
             groups[kw].sort((a, b) => b.localeCompare(a));
-          }
-          // jika undefined, kembalikan ke urutan awal (alfabetis default dari filter? biar stabil kita urutkan asc default)
-          // supaya konsisten, untuk undefined kita set ke ascending standar (bukan insertion)
-          else {
-            groups[kw].sort((a, b) => a.localeCompare(b));   // ascending dasar
+          } else {
+            sortDirections[kw] = undefined;
+            groups[kw].sort((a, b) => a.localeCompare(b)); // default ascending
           }
 
-          renderResults(groups, mode); // re-render
+          renderResults(groups, mode);
         });
 
         statsBar.appendChild(chip);
       });
 
-      document.getElementById('results-count').innerText = total + ' kata';
+      resultsCount.innerText = total + ' kata';
 
       if (total === 0) {
-        box.innerHTML = `<div class="empty-illustration"><i class="fa-regular fa-face-smile"></i><br />tidak ditemukan kata dengan pola tersebut</div>`;
-        section.style.display = 'block';
-        section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        resultsBox.innerHTML = `<div class="empty-illustration"><i class="fa-regular fa-face-smile"></i><br />tidak ditemukan kata dengan pola tersebut</div>`;
+        resultsSection.style.display = 'block';
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
       }
 
-      box.innerHTML = '';
+      // Tampilkan hasil per kelompok kata kunci
+      resultsBox.innerHTML = '';
       keywords.forEach(kw => {
         if (!groups[kw].length) return;
+        
         const groupDiv = document.createElement('div');
         groupDiv.className = 'group-section';
         groupDiv.innerHTML = `<div class="group-title"><i class="fa-regular fa-hashtag"></i> ${kw} <span>${groups[kw].length}</span></div>`;
+        
         const cloud = document.createElement('div');
         cloud.className = 'word-cloud';
+        
         groups[kw].forEach(w => {
           const tile = document.createElement('span');
           tile.className = 'word-tile';
           tile.innerHTML = highlightWord(w, kw, mode);
           cloud.appendChild(tile);
         });
+        
         groupDiv.appendChild(cloud);
-        box.appendChild(groupDiv);
+        resultsBox.appendChild(groupDiv);
       });
 
-      section.style.display = 'block';
-      section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      resultsSection.style.display = 'block';
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     // fungsi pencarian utama
@@ -690,25 +705,30 @@
         alert('masukkan setidaknya satu kata kunci');
         return;
       }
+      
       setLoading(true);
 
-      // gunakan setTimeout agar loading bar terlihat & UI tidak freeze
       setTimeout(() => {
         const groups = {};
+        
         keywords.forEach(kw => {
-          if (mode === 'depan') groups[kw] = dictionary.filter(w => w.startsWith(kw));
-          else if (mode === 'belakang') groups[kw] = dictionary.filter(w => w.endsWith(kw));
-          else groups[kw] = dictionary.filter(w => w.includes(kw));
+          if (mode === 'depan') {
+            groups[kw] = dictionary.filter(w => w.startsWith(kw));
+          } else if (mode === 'belakang') {
+            groups[kw] = dictionary.filter(w => w.endsWith(kw));
+          } else {
+            groups[kw] = dictionary.filter(w => w.includes(kw));
+          }
 
-          // default sortir ascending agar rapi, sortDirections belum diutak-atik
+          // Default ascending
           groups[kw].sort((a, b) => a.localeCompare(b));
         });
 
-        // reset sortDirections untuk kata kunci baru (semua undefined)
+        // Reset sort directions
         sortDirections = {};
-        // tapi kita tetap default ascending (sortDirections undefined = asc)
         currentGroups = groups;
         currentMode = mode;
+        
         setLoading(false);
         renderResults(groups, mode);
       }, 100);
@@ -719,18 +739,16 @@
     document.getElementById('btn-belakang').addEventListener('click', () => performSearch('belakang'));
     document.getElementById('btn-semua').addEventListener('click', () => performSearch('semua'));
 
-    // muat kamus
-    loadDictionary();
-
-    // supaya lebih interaktif: tekan enter di textarea tidak submit apa2
+    // Enter di textarea tidak melakukan apa-apa
     document.getElementById('keywords').addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();  // jangan tambah baris kalau mau, tapi biarkan shift+enter untuk baris baru
-        // optionally trigger pencarian? tapi lebih baik biarkan user klik button.
+        e.preventDefault();
       }
     });
+
+    // muat kamus
+    loadDictionary();
   })();
 </script>
-<!-- perbaikan total: ux lebih ekspresif, sort dengan icon, fungsi stabil -->
 </body>
 </html>
