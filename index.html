@@ -329,6 +329,20 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      cursor: pointer;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .stat-item:hover {
+      background: #e6d9cd;
+      border-color: #b9a48f;
+    }
+    .stat-item.sorted-asc {
+      background: #d6e2da;
+      border-color: #96b1a2;
+    }
+    .stat-item.sorted-desc {
+      background: #d6e2da;
+      border-color: #96b1a2;
     }
 
     .stat-item strong {
@@ -464,7 +478,7 @@
   <!-- main input card -->
   <div class="input-section" id="form-area" style="display: none;">
     <div class="field-label"><i>⌘</i> kata kunci</div>
-    <textarea id="keywords" placeholder="contoh: makan, tidur, buku&#10;bisa lebih dari satu, pisahkan koma atau baris baru">makan, rumah</textarea>
+    <textarea id="keywords" placeholder="contoh: makan, tidur, buku&#10;bisa lebih dari satu, pisahkan koma atau baris baru">a, b</textarea>
     <div class="hint-text">⏎ pisah dengan koma / enter — misal: jalan, gunung, api</div>
 
     <!-- smooth loading bar -->
@@ -499,16 +513,30 @@
     const DICT_URL = 'https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt';
     let dictionary = [];
 
+    // state for sorting per keyword
+    let currentGroups = {};
+    let currentMode = 'depan';
+    let sortDirections = {}; // stores 'asc' or 'desc' per keyword
+
     const dictLoadingEl = document.getElementById('dict-loading');
     const formArea = document.getElementById('form-area');
     const dictCountSpan = document.getElementById('dict-count');
     const footerDictSpan = document.getElementById('footer-dict-count');
 
+    // bersihkan kata: hapus spasi dan strip, gabungkan
+    function cleanWord(word) {
+      // hapus spasi, ganti strip dengan kosong, lalu lowercase
+      return word.replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
+    }
+
     async function loadDictionary() {
       try {
         const resp = await fetch(DICT_URL);
         const text = await resp.text();
-        dictionary = text.split('\n').map(w => w.trim().toLowerCase()).filter(Boolean);
+        // bersihkan setiap kata: buang spasi & strip, lalu filter yang masih ada isinya
+        dictionary = text.split('\n')
+                         .map(w => cleanWord(w))
+                         .filter(Boolean);
         dictCountSpan.textContent = dictionary.length.toLocaleString('id');
         footerDictSpan.textContent = dictionary.length.toLocaleString('id');
         dictLoadingEl.innerHTML = '✅ kamus siap · ' + dictionary.length.toLocaleString('id') + ' kata';
@@ -550,6 +578,7 @@
       return prefix + '<span class="hl-' + mode + '">' + match + '</span>' + suffix;
     }
 
+    // render dengan memperhatikan sortDirections
     function renderResults(groups, mode) {
       const section = document.getElementById('results-section');
       const box = document.getElementById('results-box');
@@ -559,13 +588,36 @@
       
       let total = 0;
       statsBar.innerHTML = '';
-      Object.keys(groups).forEach(kw => {
+
+      const keywords = Object.keys(groups);
+      keywords.forEach(kw => {
         total += groups[kw].length;
         const chip = document.createElement('span');
         chip.className = 'stat-item';
+        if (sortDirections[kw] === 'asc') chip.classList.add('sorted-asc');
+        else if (sortDirections[kw] === 'desc') chip.classList.add('sorted-desc');
+
         chip.innerHTML = `“${kw}” <strong>${groups[kw].length}</strong>`;
+        // attach click to toggle sort for this keyword
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // toggle sort: asc -> desc -> none (kosongkan)
+          if (!sortDirections[kw] || sortDirections[kw] === 'desc') sortDirections[kw] = 'asc';
+          else if (sortDirections[kw] === 'asc') sortDirections[kw] = 'desc';
+          // else -> asc (already handled)
+
+          // apply sort to groups[kw] based on direction
+          if (sortDirections[kw] === 'asc') {
+            groups[kw].sort((a, b) => a.localeCompare(b));
+          } else if (sortDirections[kw] === 'desc') {
+            groups[kw].sort((a, b) => b.localeCompare(a));
+          }
+          // re-render with same groups & mode
+          renderResults(groups, mode);
+        });
         statsBar.appendChild(chip);
       });
+
       document.getElementById('results-count').innerText = total + ' kata';
 
       if (total === 0) {
@@ -576,7 +628,7 @@
       }
 
       box.innerHTML = '';
-      Object.keys(groups).forEach(kw => {
+      keywords.forEach(kw => {
         if (!groups[kw].length) return;
         const groupDiv = document.createElement('div');
         groupDiv.className = 'group-section';
@@ -605,7 +657,6 @@
       }
       setLoading(true);
 
-      // slight delay for loading bar feedback
       setTimeout(() => {
         const groups = {};
         keywords.forEach(kw => {
@@ -613,6 +664,10 @@
           else if (mode === 'belakang') groups[kw] = dictionary.filter(w => w.endsWith(kw));
           else groups[kw] = dictionary.filter(w => w.includes(kw));
         });
+        // reset sort directions untuk keywords baru
+        sortDirections = {};
+        currentGroups = groups;
+        currentMode = mode;
         setLoading(false);
         renderResults(groups, mode);
       }, 80);
