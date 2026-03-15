@@ -602,22 +602,20 @@
 chip.addEventListener('click', (e) => {
   e.stopPropagation();
 
-  // toggle sort cycle: none -> asc -> desc -> none
-  if (!sortDirections[kw]) sortDirections[kw] = 'asc';
-  else if (sortDirections[kw] === 'asc') sortDirections[kw] = 'desc';
-  else sortDirections[kw] = null;
+  // cycle through: undefined -> asc -> desc -> undefined
+  const current = sortDirections[kw];
+  if (!current) sortDirections[kw] = 'asc';
+  else if (current === 'asc') sortDirections[kw] = 'desc';
+  else sortDirections[kw] = undefined;
 
-  // clone original group for this keyword to avoid mutation
-  let words = [...currentGroups[kw]];
+  // apply sort only if defined
   if (sortDirections[kw] === 'asc') {
-    words.sort((a,b) => a.localeCompare(b));
+    groups[kw].sort((a, b) => a.localeCompare(b));
   } else if (sortDirections[kw] === 'desc') {
-    words.sort((a,b) => b.localeCompare(a));
+    groups[kw].sort((a, b) => b.localeCompare(a));
   }
-  currentGroups[kw] = words;
 
-  // re-render with updated groups & mode
-  renderResults(currentGroups, currentMode);
+  renderResults(groups, mode);
 });
         statsBar.appendChild(chip);
       });
