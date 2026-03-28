@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Fontawesome 6 Free -->
+  <!-- Fontawesome 6 Free (CDN yang stabil) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -25,7 +25,6 @@
       min-height: 100vh;
     }
 
-    /* Modern glass-morphism with depth */
     .app-container {
       max-width: 1280px;
       margin: 0 auto;
@@ -79,7 +78,6 @@
       padding-left: 1rem;
     }
 
-    /* main card — floating neumorphic + blur */
     .main-card {
       background: rgba(255, 252, 245, 0.85);
       backdrop-filter: blur(20px);
@@ -90,7 +88,6 @@
       border: 1px solid rgba(210, 180, 150, 0.3);
     }
 
-    /* dict status bar modern */
     .dict-status {
       display: flex;
       align-items: center;
@@ -122,7 +119,6 @@
       font-size: 0.8rem;
     }
 
-    /* input area modern */
     .input-modern {
       background: #fefaf5;
       border-radius: 2rem;
@@ -197,7 +193,6 @@
       color: white;
     }
 
-    /* button group modern */
     .btn-group-modern {
       display: flex;
       flex-wrap: wrap;
@@ -260,7 +255,6 @@
     }
     @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
 
-    /* results area fresh */
     .results-modern {
       margin-top: 2rem;
       background: rgba(252, 248, 242, 0.7);
@@ -294,7 +288,6 @@
       color: #2d5f59;
     }
 
-    /* filter bar quick sort */
     .keyword-filters {
       display: flex;
       flex-wrap: wrap;
@@ -425,7 +418,7 @@
 
     <div class="input-modern" id="inputPanel" style="display: none;">
       <div class="label-icon">
-        <span><i class="fa-regular fa-pen-line"></i></span> POLA KATA / KATA KUNCI
+        <span><i class="fa-regular fa-keyboard"></i></span> POLA KATA / KATA KUNCI
       </div>
       <textarea id="keywordInput" class="smart-textarea" placeholder="pisahkan dengan koma atau enter&#10;contoh: air, mata, angin, terang">a, buku, mang</textarea>
       <div class="pill-helper">
@@ -445,7 +438,7 @@
     <div id="resultModernPanel" style="display: none;">
       <div class="results-modern">
         <div class="results-header-flex">
-          <h2><i class="fa-regular fa-message-quote"></i> <span id="resultModeLabel">Hasil pencarian</span></h2>
+          <h2><i class="fa-regular fa-message"></i> <span id="resultModeLabel">Hasil pencarian</span></h2>
           <div class="total-chip" id="resultTotalCount">0 kata</div>
         </div>
         <div id="keywordFiltersContainer" class="keyword-filters"></div>
@@ -462,10 +455,10 @@
 <script>
   (function() {
     const DICTIONARY_URL = 'https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt';
-    let masterWords = [];      // array of cleaned words
-    let currentMode = 'semua'; // 'depan', 'belakang', 'semua'
-    let currentResultGroups = {};   // { keyword: [words] }
-    let activeSort = {};        // { keyword: 'asc' | 'desc' | null }
+    let masterWords = [];
+    let currentMode = 'semua';
+    let currentResultGroups = {};
+    let activeSort = {};
     let isReady = false;
 
     // DOM elements
@@ -494,7 +487,7 @@
         const resp = await fetch(DICTIONARY_URL);
         const raw = await resp.text();
         let lines = raw.split(/\r?\n/).map(l => cleanWord(l)).filter(l => l.length > 0);
-        masterWords = [...new Set(lines)]; // remove duplicates
+        masterWords = [...new Set(lines)];
         dictCountBadge.innerText = masterWords.length.toLocaleString('id') + ' kata';
         dictLoaderSpan.innerHTML = '<i class="fa-regular fa-circle-check"></i> kamus siap, ' + masterWords.length.toLocaleString('id') + ' lema';
         inputPanel.style.display = 'block';
@@ -525,14 +518,12 @@
       }
     }
 
-    // filter words by mode & keyword
     function filterWordsByMode(wordsArray, keyword, mode) {
       if (mode === 'depan') return wordsArray.filter(w => w.startsWith(keyword));
       if (mode === 'belakang') return wordsArray.filter(w => w.endsWith(keyword));
       return wordsArray.filter(w => w.includes(keyword));
     }
 
-    // sorting wrapper
     function sortGroup(words, sortState) {
       if (!sortState) return [...words].sort((a,b) => a.localeCompare(b));
       if (sortState === 'asc') return [...words].sort((a,b) => a.localeCompare(b));
@@ -561,34 +552,29 @@
     }
 
     function renderFullResults(groups, mode) {
-      // mode labels
       const labelMap = { depan: 'Berawalan', belakang: 'Berakhiran', semua: 'Mengandung' };
       resultModeLabel.innerText = labelMap[mode] + ' · hasil cerdas';
 
-      // total count & build filter pills
       let totalWords = 0;
       const keywords = Object.keys(groups);
       keywords.forEach(kw => { totalWords += groups[kw].length; });
       resultTotalCountSpan.innerText = totalWords.toLocaleString('id') + ' kata';
 
-      // render keyword filter pills (sorting interactive)
       keywordFiltersDiv.innerHTML = '';
       keywords.forEach(kw => {
         const pill = document.createElement('div');
         pill.className = 'filter-pill';
         const currentSort = activeSort[kw];
-        let icon = '<i class="fa-regular fa-arrow-up-arrow-down"></i>';
-        if (currentSort === 'asc') icon = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
-        if (currentSort === 'desc') icon = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
+        let icon = '<i class="fa-solid fa-arrow-up-wide-short"></i><i class="fa-solid fa-arrow-down-wide-short" style="margin-left: -12px; opacity:0.5;"></i>';
+        if (currentSort === 'asc') icon = '<i class="fa-solid fa-arrow-up-a-z"></i>';
+        if (currentSort === 'desc') icon = '<i class="fa-solid fa-arrow-down-z-a"></i>';
         if (currentSort) pill.classList.add('active-sort');
         pill.innerHTML = `${icon} "${kw}" <strong style="background:#fff5e8; border-radius:20px; padding:0 8px;">${groups[kw].length}</strong>`;
         pill.addEventListener('click', (e) => {
           e.stopPropagation();
-          // cycle: undefined -> asc -> desc -> undefined
           if (!activeSort[kw]) activeSort[kw] = 'asc';
           else if (activeSort[kw] === 'asc') activeSort[kw] = 'desc';
           else activeSort[kw] = undefined;
-          // re-sort group
           groups[kw] = sortGroup(groups[kw], activeSort[kw]);
           renderFullResults(groups, mode);
         });
@@ -602,7 +588,6 @@
         return;
       }
 
-      // render word groups
       vocabContainer.innerHTML = '';
       keywords.forEach(kw => {
         const wordsArray = groups[kw];
@@ -611,7 +596,7 @@
         groupDiv.className = 'keyword-group';
         groupDiv.innerHTML = `
           <div class="group-header">
-            <i class="fa-regular fa-tag"></i> ${kw}
+            <i class="fa-regular fa-hashtag"></i> ${kw}
             <span class="group-badge">${wordsArray.length}</span>
           </div>
           <div class="word-wall" id="wordwall-${kw.replace(/[^a-z0-9]/gi, '-')}"></div>
@@ -640,16 +625,13 @@
         return;
       }
       setLoading(true);
-      // simulate micro delay for smooth ux
       setTimeout(() => {
         const newGroups = {};
         keywords.forEach(kw => {
           let filtered = filterWordsByMode(masterWords, kw, mode);
-          // default sorting alphabetical asc
           filtered.sort((a,b) => a.localeCompare(b));
           newGroups[kw] = filtered;
         });
-        // reset sorting state
         activeSort = {};
         currentResultGroups = newGroups;
         currentMode = mode;
@@ -658,7 +640,6 @@
       }, 60);
     }
 
-    // quick chip demo populate
     function setupQuickChips() {
       const chips = document.querySelectorAll('.quick-chip');
       chips.forEach(chip => {
@@ -669,22 +650,18 @@
       });
     }
 
-    // Event listeners
     modeAwal.addEventListener('click', () => performSearch('depan'));
     modeAkhir.addEventListener('click', () => performSearch('belakang'));
     modeDalam.addEventListener('click', () => performSearch('semua'));
 
-    // optional: disable enter submit in textarea
     keywordInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
       }
     });
 
-    // init + load dictionary
     fetchDictionary().then(() => {
       setupQuickChips();
-      // optional first demo search hint (just show but not auto)
     });
   })();
 </script>
