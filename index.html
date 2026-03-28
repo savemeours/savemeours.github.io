@@ -2,13 +2,13 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arkian Kata · jelajah kosakata</title>
-  <!-- Font & clean design system -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Arkian Kata · kamus cerdas modern</title>
+  <!-- Fonts: modern grotesk + sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Fontawesome 6 (Free) - fixed version -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fontawesome 6 Free -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -18,736 +18,674 @@
     }
 
     body {
-      background: linear-gradient(145deg, #f3efe9 0%, #faf7f2 100%);
-      font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
-      color: #1a2c3a;
-      line-height: 1.5;
-      padding: 1.5rem 1rem;
+      background: radial-gradient(circle at 10% 30%, #f8f5f0 0%, #ebe4db 100%);
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      color: #1e2f3a;
+      padding: 2rem 1.2rem;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* main card — softer, floaty, modern */
-    .glass-panel {
-      max-width: 1000px;
-      width: 100%;
+    /* Modern glass-morphism with depth */
+    .app-container {
+      max-width: 1280px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(210, 190, 175, 0.3);
-      border-radius: 48px;
-      box-shadow: 0 35px 68px -24px rgba(80, 60, 40, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
-      padding: 2.8rem 2.4rem;
-      transition: all 0.3s ease;
     }
 
-    /* header micro */
-    .header-tag {
+    .hero-section {
+      margin-bottom: 2rem;
+    }
+
+    .badge-row {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 1.5rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
 
-    .pill {
-      background: #e2d9ce;
-      color: #4c5a5e;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
+    .chip-modern {
+      background: rgba(30, 40, 45, 0.08);
+      backdrop-filter: blur(4px);
+      border-radius: 60px;
       padding: 0.3rem 1rem 0.3rem 0.9rem;
-      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #4b5e68;
+      border: 1px solid rgba(140, 110, 80, 0.2);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      border: 1px solid #ccbcac;
-    }
-
-    .pill i {
-      font-size: 0.8rem;
-      color: #6a5e51;
+      letter-spacing: -0.2px;
     }
 
     h1 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2.5rem, 8vw, 3.8rem);
-      line-height: 1;
-      color: #2b3b44;
-      margin-bottom: 0.2rem;
-      letter-spacing: -0.03em;
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 8vw, 4.8rem);
+      line-height: 1.1;
+      background: linear-gradient(135deg, #1f3c3b, #7f6148);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
     }
 
-    h1 span {
-      font-weight: 400;
-      color: #9a8b7a;
-    }
-
-    .description {
+    .sub {
       font-size: 1rem;
-      background: #f2ede7;
-      border-radius: 30px;
-      padding: 0.9rem 1.6rem;
-      margin: 1.5rem 0 2rem 0;
-      border-left: 5px solid #b7c4b0;
-      color: #3d535d;
-      box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.8);
+      color: #7e6b59;
+      font-weight: 450;
+      margin-top: 0.5rem;
+      border-left: 3px solid #c5b29b;
+      padding-left: 1rem;
     }
 
-    .description i {
-      margin-right: 8px;
-      color: #7a927c;
+    /* main card — floating neumorphic + blur */
+    .main-card {
+      background: rgba(255, 252, 245, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 3rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 245, 235, 0.6) inset;
+      padding: 2rem 2rem;
+      transition: all 0.3s;
+      border: 1px solid rgba(210, 180, 150, 0.3);
     }
 
-    /* dictionary status bar — clean */
-    .dict-info {
+    /* dict status bar modern */
+    .dict-status {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #e8dfd4;
-      border-radius: 60px;
-      padding: 0.5rem 1rem 0.5rem 1.8rem;
-      margin-bottom: 2.2rem;
-      font-size: 0.9rem;
-      border: 1px solid #d4c5b5;
-      color: #2b404b;
+      background: #ffffffcc;
+      border-radius: 2rem;
+      padding: 0.5rem 1rem 0.5rem 1.5rem;
+      margin-bottom: 2rem;
       flex-wrap: wrap;
+      gap: 12px;
+      border: 1px solid #e7ddcf;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
     }
 
-    #dict-loading {
+    .status-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-weight: 500;
+      font-size: 0.9rem;
     }
 
-    .dict-count-badge {
-      background: white;
-      border-radius: 40px;
-      padding: 0.4rem 1.3rem;
-      font-weight: 700;
-      color: #2e5f64;
-      box-shadow: 0 4px 8px -4px rgba(0,0,0,0.05);
-    }
-
-    .spinner-mini {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(70, 85, 90, 0.15);
-      border-top: 2px solid #61818a;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* input area — softer edges, more breathing */
-    .input-section {
-      background: rgba(255, 248, 240, 0.7);
-      border-radius: 40px;
-      padding: 2rem 2rem;
-      border: 1px solid #f0e2d4;
-      margin-bottom: 1.8rem;
-      box-shadow: 0 12px 24px -16px rgba(100, 70, 40, 0.2);
-    }
-
-    .field-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .dict-badge {
+      background: #2f5b57;
+      color: white;
+      padding: 0.35rem 1rem;
+      border-radius: 2rem;
+      font-weight: 600;
       font-size: 0.8rem;
+    }
+
+    /* input area modern */
+    .input-modern {
+      background: #fefaf5;
+      border-radius: 2rem;
+      padding: 1.6rem 1.8rem;
+      margin-bottom: 1.8rem;
+      border: 1px solid #efe3d5;
+      transition: box-shadow 0.2s;
+    }
+
+    .label-icon {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.7px;
-      color: #7b6452;
-      margin-bottom: 16px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      color: #a2876f;
+      margin-bottom: 1rem;
     }
 
-    .field-label i {
-      font-style: normal;
-      background: #c6d5cb;
+    .label-icon span {
+      background: #e3d6c8;
+      border-radius: 30px;
       width: 32px;
       height: 32px;
-      border-radius: 14px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: #34504b;
-      font-weight: 700;
     }
 
-    textarea {
+    .smart-textarea {
       width: 100%;
       background: white;
-      border: 1px solid #e7d8ca;
-      border-radius: 28px;
-      padding: 1.2rem 1.8rem;
-      font-family: 'Inter', sans-serif;
+      border: 2px solid #f0e3d6;
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      font-family: 'Inter', monospace;
       font-size: 1rem;
       resize: vertical;
-      min-height: 120px;
+      min-height: 110px;
       outline: none;
       transition: 0.2s;
-      color: #1b2b37;
-      box-shadow: 0 6px 12px -8px rgba(90, 70, 50, 0.2), inset 0 1px 3px #fff8f0;
+      color: #1e2f3a;
+      font-weight: 450;
     }
 
-    textarea:focus {
-      border-color: #b7a48e;
-      box-shadow: 0 0 0 5px rgba(170, 140, 110, 0.12);
+    .smart-textarea:focus {
+      border-color: #bc9a7a;
+      box-shadow: 0 0 0 4px rgba(188, 154, 122, 0.15);
     }
 
-    .hint-text {
-      font-size: 0.8rem;
-      color: #9b8a78;
-      margin: 14px 0 10px 0;
+    .pill-helper {
       display: flex;
-      align-items: center;
-      gap: 6px;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .hint-text i {
-      color: #97b0a5;
-      width: 20px;
+    .quick-chip {
+      background: #e9e0d5;
+      border-radius: 30px;
+      padding: 0.3rem 1rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.1s;
     }
 
-    /* modern loading bar */
-    .loading-bar-smooth {
-      height: 6px;
-      background: #e6dbcf;
-      border-radius: 10px;
-      margin: 18px 0 10px;
-      overflow: hidden;
-      display: none;
+    .quick-chip:hover {
+      background: #cfbeab;
+      color: white;
     }
 
-    .loading-bar-smooth.active {
-      display: block;
-    }
-
-    .loading-bar-smooth::after {
-      content: '';
-      display: block;
-      width: 30%;
-      height: 100%;
-      background: linear-gradient(90deg, #b8ab9a, #9fc5b6, #d9c6ae);
-      border-radius: 10px;
-      animation: smoothLoad 1.4s ease-in-out infinite;
-    }
-
-    @keyframes smoothLoad {
-      0% { transform: translateX(-200%); }
-      100% { transform: translateX(400%); }
-    }
-
-    /* tombol cluster — lebih tactile, warna lebih segar */
-    .button-cluster {
+    /* button group modern */
+    .btn-group-modern {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
       margin-top: 28px;
     }
 
-    .mode-btn {
-      border: none;
-      background: #fcf8f3;
-      padding: 1rem 1.3rem;
-      border-radius: 60px;
-      font-weight: 600;
+    .btn-action {
+      flex: 1;
+      padding: 1rem 1rem;
+      border-radius: 2rem;
+      font-weight: 700;
       font-size: 1rem;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      flex: 1 1 170px;
-      border: 1px solid #ddd0c0;
-      color: #3b4f55;
-      transition: all 0.18s;
+      border: none;
       cursor: pointer;
-      box-shadow: 0 5px 12px -6px #d9cabb;
+      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      background: #f2ede6;
+      color: #2b4a48;
+      border: 1px solid #ddcfbf;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
 
-    .mode-btn i {
-      font-size: 1.1rem;
-      opacity: 0.8;
-    }
+    .btn-action i { font-size: 1.1rem; }
 
-    .mode-btn:hover {
-      background: #f6efe6;
-      border-color: #b89f89;
+    .btn-action:hover {
       transform: translateY(-3px);
-      box-shadow: 0 15px 20px -12px #aa9b8c;
+      background: #faf3ea;
+      border-color: #b69579;
+      box-shadow: 0 12px 20px -12px rgba(80, 60, 40, 0.3);
     }
 
-    .mode-btn:active {
-      transform: scale(0.96);
+    .btn-primary {
+      background: #2a5a56;
+      border-color: #3a7a74;
+      color: white;
     }
+    .btn-primary:hover { background: #1f4542; }
 
-    .mode-btn.depan {
-      background: #e1f0eb;
-      border-color: #b1cfc2;
-    }
-    .mode-btn.belakang {
-      background: #f7ede2;
-      border-color: #dac8b6;
-    }
-    .mode-btn.semua {
-      background: #ede7f2;
-      border-color: #cabdd6;
-    }
-    .mode-btn:disabled {
-      opacity: 0.4;
-      transform: none;
-      pointer-events: none;
-    }
-
-    /* panel hasil — lebih ekspresif */
-    .results-container {
+    .loading-skeleton {
+      height: 6px;
+      background: #e2d4c6;
+      border-radius: 20px;
+      margin: 18px 0 0;
+      overflow: hidden;
       display: none;
-      background: rgba(255, 247, 240, 0.7);
-      border-radius: 42px;
-      padding: 2rem 2rem;
-      border: 1px solid #f0dfd0;
+    }
+    .loading-skeleton.active { display: block; }
+    .loading-skeleton::after {
+      content: '';
+      display: block;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, #c0aa93, #95b8a8, #d6bc98);
+      border-radius: 20px;
+      animation: shimmer 1.2s infinite ease;
+    }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+
+    /* results area fresh */
+    .results-modern {
       margin-top: 2rem;
-      box-shadow: 0 20px 30px -20px #b7a38e;
+      background: rgba(252, 248, 242, 0.7);
+      border-radius: 2rem;
+      padding: 1.8rem;
+      backdrop-filter: blur(4px);
     }
 
-    .results-header {
+    .results-header-flex {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.8rem;
+      align-items: baseline;
       flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 1.2rem;
     }
 
-    .results-header h3 {
+    .results-header-flex h2 {
+      font-size: 1.6rem;
       font-weight: 700;
-      font-size: 1.8rem;
-      color: #385858;
-      letter-spacing: -0.4px;
+      color: #2c5a55;
+      display: flex;
+      gap: 10px;
+    }
+
+    .total-chip {
+      background: #2b5f5b20;
+      border-radius: 40px;
+      padding: 0.4rem 1.4rem;
+      font-weight: 700;
+      color: #2d5f59;
+    }
+
+    /* filter bar quick sort */
+    .keyword-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px dashed #e2d2c0;
+    }
+
+    .filter-pill {
+      background: #ffffffcc;
+      border-radius: 60px;
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-    .results-header h3 i {
-      font-size: 1.6rem;
-      color: #95aa96;
-    }
-
-    .chip-count {
-      background: #e8dfd4;
-      border-radius: 60px;
-      padding: 0.4rem 1.5rem;
-      font-weight: 600;
-      font-size: 1rem;
-      color: #3b6064;
-    }
-
-    .stats-mini {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 14px;
-      margin-bottom: 1.8rem;
-    }
-
-    .stat-item {
-      background: #f4ece4;
-      border-radius: 60px;
-      padding: 0.4rem 1.2rem 0.4rem 1.2rem;
-      font-size: 0.9rem;
-      border: 1px solid #e0d2c2;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       cursor: pointer;
-      transition: all 0.15s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-      font-weight: 500;
+      border: 1px solid #ddcdbb;
+      transition: all 0.1s;
     }
+    .filter-pill i { font-size: 0.8rem; opacity: 0.7; }
+    .filter-pill.active-sort { background: #cfe2da; border-color: #8bb29f; font-weight: 600; }
+    .filter-pill:hover { background: #e7dbce; transform: translateY(-1px); }
 
-    .stat-item:hover {
-      background: #e2d4c6;
-      border-color: #b99f89;
-    }
-
-    .stat-item.sorted-asc, .stat-item.sorted-desc {
-      background: #dae9e2;
-      border-color: #87ac9b;
-      font-weight: 600;
-    }
-
-    .stat-item i {
-      opacity: 0.6;
-      font-size: 0.8rem;
-      width: 16px;
-    }
-
-    .stat-item.sorted-asc i, .stat-item.sorted-desc i {
-      opacity: 1;
-    }
-
-    .stat-item strong {
-      background: white;
-      border-radius: 30px;
-      padding: 0.2rem 0.7rem;
-      font-weight: 700;
-      color: #285c5f;
-      margin-left: 4px;
-    }
-
-    .vocab-box {
-      background: #fefcf9;
-      border-radius: 34px;
-      padding: 1.6rem;
-      max-height: 460px;
+    .vocab-grid {
+      max-height: 500px;
       overflow-y: auto;
-      border: 1px solid #eaded1;
+      padding-right: 0.5rem;
       scrollbar-width: thin;
-      scrollbar-color: #c1b09d #f3ede7;
     }
 
-    .vocab-box::-webkit-scrollbar { width: 8px; }
-    .vocab-box::-webkit-scrollbar-track { background: #f0e8df; border-radius: 10px; }
-    .vocab-box::-webkit-scrollbar-thumb { background: #c6b4a1; border-radius: 10px; }
+    .keyword-group {
+      margin-bottom: 2rem;
+      background: rgba(255, 251, 245, 0.7);
+      border-radius: 1.8rem;
+      padding: 1rem 1.2rem;
+    }
 
-    .group-section { margin-bottom: 2.2rem; }
-
-    .group-title {
+    .group-header {
       font-weight: 700;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #917f6b;
-      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+      letter-spacing: -0.3px;
+      border-left: 5px solid #ab9a83;
+      padding-left: 14px;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 12px;
     }
-
-    .group-title span {
-      background: #d9cbbe;
-      border-radius: 50px;
-      padding: 0.2rem 0.9rem;
-      font-size: 0.75rem;
-      color: #2d404a;
+    .group-badge {
+      background: #f0e4d6;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
     }
 
-    .word-cloud {
+    .word-wall {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .word-tile {
+    .word-badge {
       background: white;
-      border: 1px solid #e2d6c8;
-      border-radius: 40px;
-      padding: 0.5rem 1.2rem;
-      font-size: 0.9rem;
+      border-radius: 60px;
+      padding: 0.5rem 1.3rem;
+      font-size: 0.85rem;
       font-weight: 500;
-      color: #1a2b38;
-      transition: 0.12s;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #eedfcb;
+      transition: all 0.1s ease;
       cursor: default;
-      word-break: break-word;
-      max-width: 100%;
     }
-
-    .word-tile:hover {
-      background: #f4ebe2;
-      border-color: #b6a48f;
+    .word-badge:hover {
+      background: #f5ede3;
+      border-color: #c0a685;
       transform: scale(1.02);
     }
 
-    .hl-depan { background: #c6e3d9; font-weight: 600; color: #135e58; border-radius: 30px; padding: 0.1rem 5px; }
-    .hl-belakang { background: #f3e0cc; font-weight: 600; color: #9c653b; border-radius: 30px; padding: 0.1rem 5px; }
-    .hl-semua { background: #e0d6f0; font-weight: 600; color: #55427a; border-radius: 30px; padding: 0.1rem 5px; }
+    .highlight-depan { background: #bddcd1; font-weight: 700; border-radius: 20px; padding: 0 4px; color: #1d554e; }
+    .highlight-belakang { background: #f3ddcb; font-weight: 700; border-radius: 20px; padding: 0 4px; color: #aa6d3c; }
+    .highlight-semua { background: #ddd0ec; font-weight: 700; border-radius: 20px; padding: 0 4px; color: #5b3c8c; }
 
-    .empty-illustration {
+    .empty-state {
       text-align: center;
-      padding: 3rem 1rem;
-      color: #af9f8e;
-      font-size: 1.1rem;
+      padding: 3rem;
+      color: #aa9884;
     }
-    .empty-illustration i { font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.5; }
-
     footer {
-      margin-top: 2.5rem;
-      font-size: 0.85rem;
-      color: #a39280;
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #b09c86;
       display: flex;
       justify-content: center;
-      gap: 8px;
-      border-top: 2px dotted #dacfc2;
-      padding-top: 1.8rem;
+      gap: 10px;
     }
 
-    footer b { color: #5b786e; font-weight: 600; }
-    footer i { margin-right: 4px; }
+    @media (max-width: 650px) {
+      .main-card { padding: 1.5rem; }
+      .btn-group-modern { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-<div class="glass-panel">
-  <div class="header-tag">
-    <div class="pill"><i class="fa-solid fa-book-open"></i> kamus utama · kata dasar</div>
-  </div>
-  <h1>Arkian <span>Kata</span></h1>
-  <div class="description">
-    <i class="fa-regular fa-compass"></i> Cari kata berawalan, akhiran, atau yang mengandung pola tertentu. Pisahkan dengan koma / baris.
-  </div>
-
-  <div class="dict-info" id="dictInfo">
-    <span id="dict-loading"><span class="spinner-mini"></span> menyiapkan khazanah kata...</span>
-    <span class="dict-count-badge" id="dict-count">0</span>
-  </div>
-
-  <div class="input-section" id="form-area" style="display: none;">
-    <div class="field-label"><i class="fa-regular fa-keyboard"></i> kata kunci / pola</div>
-    <textarea id="keywords" placeholder="contoh: rumah, air, buku&#10;bisa lebih dari satu (koma/enter)">a, buku, mang</textarea>
-    <div class="hint-text"><i class="fa-regular fa-circle-check"></i> pisah pakai koma atau baris baru — misal: jalan, gunung</div>
-
-    <div class="loading-bar-smooth" id="loading-bar"></div>
-
-    <div class="button-cluster">
-      <button class="mode-btn depan" id="btn-depan"><i class="fa-solid fa-arrow-left-long"></i> Berawalan</button>
-      <button class="mode-btn belakang" id="btn-belakang"><i class="fa-solid fa-arrow-right-long"></i> Berakhiran</button>
-      <button class="mode-btn semua" id="btn-semua"><i class="fa-solid fa-circle"></i> Mengandung</button>
+<div class="app-container">
+  <div class="hero-section">
+    <div class="badge-row">
+      <span class="chip-modern"><i class="fa-regular fa-gem"></i> kamus 2.0</span>
+      <span class="chip-modern"><i class="fa-regular fa-lightbulb"></i> smart lookup</span>
+      <span class="chip-modern"><i class="fa-regular fa-chart-line"></i> sorting interaktif</span>
     </div>
+    <h1>Arkian <span style="background: none; -webkit-background-clip: text; background-clip: text;">Kata</span></h1>
+    <div class="sub"><i class="fa-regular fa-compass"></i> telusuri ribuan kata · awalan, akhiran, & coretan linguistik</div>
   </div>
 
-  <div class="results-container" id="results-section">
-    <div class="results-header">
-      <h3><i class="fa-regular fa-message"></i> <span id="results-title">Hasil pencarian</span></h3>
-      <div class="chip-count" id="results-count">0</div>
+  <div class="main-card">
+    <!-- status bar modern -->
+    <div class="dict-status" id="dictStatusBar">
+      <div class="status-left">
+        <i class="fa-regular fa-database"></i>
+        <span id="dictLoaderText"><i class="fa-solid fa-spinner fa-pulse"></i> memuat khazanah...</span>
+      </div>
+      <div class="dict-badge" id="dictCountBadge">0 kata</div>
     </div>
-    <div class="stats-mini" id="stats-bar"></div>
-    <div class="vocab-box" id="results-box"></div>
-  </div>
 
-  <footer>
-    <i class="fa-regular fa-pen-to-square"></i> <span id="footer-dict-count">–</span> kata terindeks · by <b>arkian/savemeours</b>
-  </footer>
+    <div class="input-modern" id="inputPanel" style="display: none;">
+      <div class="label-icon">
+        <span><i class="fa-regular fa-pen-line"></i></span> POLA KATA / KATA KUNCI
+      </div>
+      <textarea id="keywordInput" class="smart-textarea" placeholder="pisahkan dengan koma atau enter&#10;contoh: air, mata, angin, terang">a, buku, mang</textarea>
+      <div class="pill-helper">
+        <span class="quick-chip" data-demo="a, buku, mang"><i class="fa-regular fa-clock"></i> contoh awal</span>
+        <span class="quick-chip" data-demo="an, kan, i"><i class="fa-regular fa-flag"></i> akhiran populer</span>
+        <span class="quick-chip" data-demo="ber, me, per"><i class="fa-regular fa-repeat"></i> prefiks umum</span>
+      </div>
+      <div class="loading-skeleton" id="searchLoader"></div>
+      <div class="btn-group-modern">
+        <button class="btn-action" id="modeAwalBtn"><i class="fa-solid fa-arrow-left"></i> Berawalan</button>
+        <button class="btn-action" id="modeAkhirBtn"><i class="fa-solid fa-arrow-right"></i> Berakhiran</button>
+        <button class="btn-action btn-primary" id="modeDalamBtn"><i class="fa-solid fa-circle-nodes"></i> Mengandung</button>
+      </div>
+    </div>
+
+    <!-- Results panel modern -->
+    <div id="resultModernPanel" style="display: none;">
+      <div class="results-modern">
+        <div class="results-header-flex">
+          <h2><i class="fa-regular fa-message-quote"></i> <span id="resultModeLabel">Hasil pencarian</span></h2>
+          <div class="total-chip" id="resultTotalCount">0 kata</div>
+        </div>
+        <div id="keywordFiltersContainer" class="keyword-filters"></div>
+        <div id="vocabResultContainer" class="vocab-grid"></div>
+      </div>
+    </div>
+
+    <footer>
+      <i class="fa-regular fa-copyright"></i> Arkian Kata · enriched corpus · by <strong>aksara modern</strong>
+    </footer>
+  </div>
 </div>
 
 <script>
   (function() {
-    const DICT_URL = 'https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt';
-    let dictionary = [];
+    const DICTIONARY_URL = 'https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt';
+    let masterWords = [];      // array of cleaned words
+    let currentMode = 'semua'; // 'depan', 'belakang', 'semua'
+    let currentResultGroups = {};   // { keyword: [words] }
+    let activeSort = {};        // { keyword: 'asc' | 'desc' | null }
+    let isReady = false;
 
-    let currentGroups = {};
-    let currentMode = 'depan';
-    let sortDirections = {};
+    // DOM elements
+    const dictLoaderSpan = document.getElementById('dictLoaderText');
+    const dictCountBadge = document.getElementById('dictCountBadge');
+    const inputPanel = document.getElementById('inputPanel');
+    const searchLoader = document.getElementById('searchLoader');
+    const keywordInput = document.getElementById('keywordInput');
+    const resultPanel = document.getElementById('resultModernPanel');
+    const resultModeLabel = document.getElementById('resultModeLabel');
+    const resultTotalCountSpan = document.getElementById('resultTotalCount');
+    const keywordFiltersDiv = document.getElementById('keywordFiltersContainer');
+    const vocabContainer = document.getElementById('vocabResultContainer');
 
-    const dictLoadingEl = document.getElementById('dict-loading');
-    const formArea = document.getElementById('form-area');
-    const dictCountSpan = document.getElementById('dict-count');
-    const footerDictSpan = document.getElementById('footer-dict-count');
-    const resultsSection = document.getElementById('results-section');
-    const resultsTitle = document.getElementById('results-title');
-    const resultsCount = document.getElementById('results-count');
-    const statsBar = document.getElementById('stats-bar');
-    const resultsBox = document.getElementById('results-box');
+    // buttons
+    const modeAwal = document.getElementById('modeAwalBtn');
+    const modeAkhir = document.getElementById('modeAkhirBtn');
+    const modeDalam = document.getElementById('modeDalamBtn');
 
-    // Bersihkan kata: hapus spasi, strip, ubah ke lowercase
-    function cleanWord(word) {
-      return word.replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
+    function cleanWord(w) {
+      return w.trim().replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
     }
 
-    async function loadDictionary() {
+    async function fetchDictionary() {
       try {
-        const resp = await fetch(DICT_URL);
-        const text = await resp.text();
-        dictionary = text.split('\n')
-                         .map(w => cleanWord(w))
-                         .filter(w => w.length > 0);
-        
-        // Hapus duplikat
-        dictionary = [...new Set(dictionary)];
-        
-        dictCountSpan.textContent = dictionary.length.toLocaleString('id');
-        footerDictSpan.textContent = dictionary.length.toLocaleString('id');
-        dictLoadingEl.innerHTML = `<i class="fa-regular fa-circle-check"></i> kamus siap · ${dictionary.length.toLocaleString('id')} kata`;
-        formArea.style.display = 'block';
+        const resp = await fetch(DICTIONARY_URL);
+        const raw = await resp.text();
+        let lines = raw.split(/\r?\n/).map(l => cleanWord(l)).filter(l => l.length > 0);
+        masterWords = [...new Set(lines)]; // remove duplicates
+        dictCountBadge.innerText = masterWords.length.toLocaleString('id') + ' kata';
+        dictLoaderSpan.innerHTML = '<i class="fa-regular fa-circle-check"></i> kamus siap, ' + masterWords.length.toLocaleString('id') + ' lema';
+        inputPanel.style.display = 'block';
+        isReady = true;
       } catch (err) {
-        dictLoadingEl.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> gagal muat kamus, refresh';
+        dictLoaderSpan.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> gagal muat kamus, refresh halaman';
         console.error(err);
       }
     }
 
-    function getKeywords() {
-      const raw = document.getElementById('keywords').value;
-      return raw.split(/[,\n]+/).map(k => k.trim().toLowerCase()).filter(k => k.length > 0);
+    function getKeywordsList() {
+      let raw = keywordInput.value;
+      let keywords = raw.split(/[,\n]+/).map(k => k.trim().toLowerCase()).filter(k => k.length > 0);
+      return keywords;
     }
 
-    function setLoading(active) {
-      const bar = document.getElementById('loading-bar');
-      bar.classList.toggle('active', active);
-      document.getElementById('btn-depan').disabled = active;
-      document.getElementById('btn-belakang').disabled = active;
-      document.getElementById('btn-semua').disabled = active;
+    function setLoading(loading) {
+      if (loading) {
+        searchLoader.classList.add('active');
+        modeAwal.disabled = true;
+        modeAkhir.disabled = true;
+        modeDalam.disabled = true;
+      } else {
+        searchLoader.classList.remove('active');
+        modeAwal.disabled = false;
+        modeAkhir.disabled = false;
+        modeDalam.disabled = false;
+      }
     }
 
-    // highlight kata sesuai mode
-    function highlightWord(word, query, mode) {
+    // filter words by mode & keyword
+    function filterWordsByMode(wordsArray, keyword, mode) {
+      if (mode === 'depan') return wordsArray.filter(w => w.startsWith(keyword));
+      if (mode === 'belakang') return wordsArray.filter(w => w.endsWith(keyword));
+      return wordsArray.filter(w => w.includes(keyword));
+    }
+
+    // sorting wrapper
+    function sortGroup(words, sortState) {
+      if (!sortState) return [...words].sort((a,b) => a.localeCompare(b));
+      if (sortState === 'asc') return [...words].sort((a,b) => a.localeCompare(b));
+      if (sortState === 'desc') return [...words].sort((a,b) => b.localeCompare(a));
+      return [...words];
+    }
+
+    function highlightWord(word, keyword, mode) {
       let idx = -1;
       if (mode === 'depan') {
-        if (word.startsWith(query)) idx = 0;
+        if (word.startsWith(keyword)) idx = 0;
       } else if (mode === 'belakang') {
-        if (word.endsWith(query)) idx = word.length - query.length;
+        if (word.endsWith(keyword)) idx = word.length - keyword.length;
       } else {
-        idx = word.indexOf(query);
+        idx = word.indexOf(keyword);
       }
       if (idx === -1) return word;
-      
-      const prefix = word.slice(0, idx);
-      const match = word.slice(idx, idx + query.length);
-      const suffix = word.slice(idx + query.length);
-      return prefix + '<span class="hl-' + mode + '">' + match + '</span>' + suffix;
+      const before = word.slice(0, idx);
+      const match = word.slice(idx, idx + keyword.length);
+      const after = word.slice(idx + keyword.length);
+      let cls = '';
+      if (mode === 'depan') cls = 'highlight-depan';
+      else if (mode === 'belakang') cls = 'highlight-belakang';
+      else cls = 'highlight-semua';
+      return `${before}<span class="${cls}">${match}</span>${after}`;
     }
 
-    // render dengan sort per kata kunci
-    function renderResults(groups, mode) {
-      const titleMap = { depan: 'Berawalan', belakang: 'Berakhiran', semua: 'Mengandung' };
-      resultsTitle.innerText = titleMap[mode] + ' ⋮';
+    function renderFullResults(groups, mode) {
+      // mode labels
+      const labelMap = { depan: 'Berawalan', belakang: 'Berakhiran', semua: 'Mengandung' };
+      resultModeLabel.innerText = labelMap[mode] + ' · hasil cerdas';
 
-      let total = 0;
-      statsBar.innerHTML = '';
-
+      // total count & build filter pills
+      let totalWords = 0;
       const keywords = Object.keys(groups);
-      
-      // Hitung total dan buat chip untuk setiap keyword
+      keywords.forEach(kw => { totalWords += groups[kw].length; });
+      resultTotalCountSpan.innerText = totalWords.toLocaleString('id') + ' kata';
+
+      // render keyword filter pills (sorting interactive)
+      keywordFiltersDiv.innerHTML = '';
       keywords.forEach(kw => {
-        total += groups[kw].length;
-
-        const chip = document.createElement('span');
-        chip.className = 'stat-item';
-        
-        // Tentukan ikon berdasarkan arah sorting
-        let directionIcon = '';
-        if (sortDirections[kw] === 'asc') {
-          chip.classList.add('sorted-asc');
-          directionIcon = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
-        } else if (sortDirections[kw] === 'desc') {
-          chip.classList.add('sorted-desc');
-          directionIcon = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
-        } else {
-          directionIcon = '<i class="fa-solid fa-arrows-up-down"></i>';
-        }
-
-        chip.innerHTML = `${directionIcon} "${kw}" <strong>${groups[kw].length}</strong>`;
-
-        // event toggle sorting
-        chip.addEventListener('click', (e) => {
+        const pill = document.createElement('div');
+        pill.className = 'filter-pill';
+        const currentSort = activeSort[kw];
+        let icon = '<i class="fa-regular fa-arrow-up-arrow-down"></i>';
+        if (currentSort === 'asc') icon = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
+        if (currentSort === 'desc') icon = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
+        if (currentSort) pill.classList.add('active-sort');
+        pill.innerHTML = `${icon} "${kw}" <strong style="background:#fff5e8; border-radius:20px; padding:0 8px;">${groups[kw].length}</strong>`;
+        pill.addEventListener('click', (e) => {
           e.stopPropagation();
-          const current = sortDirections[kw];
-          
-          // Cycle: undefined -> asc -> desc -> undefined
-          if (!current) {
-            sortDirections[kw] = 'asc';
-            groups[kw].sort((a, b) => a.localeCompare(b));
-          } else if (current === 'asc') {
-            sortDirections[kw] = 'desc';
-            groups[kw].sort((a, b) => b.localeCompare(a));
-          } else {
-            sortDirections[kw] = undefined;
-            groups[kw].sort((a, b) => a.localeCompare(b)); // default ascending
-          }
-
-          renderResults(groups, mode);
+          // cycle: undefined -> asc -> desc -> undefined
+          if (!activeSort[kw]) activeSort[kw] = 'asc';
+          else if (activeSort[kw] === 'asc') activeSort[kw] = 'desc';
+          else activeSort[kw] = undefined;
+          // re-sort group
+          groups[kw] = sortGroup(groups[kw], activeSort[kw]);
+          renderFullResults(groups, mode);
         });
-
-        statsBar.appendChild(chip);
+        keywordFiltersDiv.appendChild(pill);
       });
 
-      resultsCount.innerText = total + ' kata';
-
-      if (total === 0) {
-        resultsBox.innerHTML = `<div class="empty-illustration"><i class="fa-regular fa-face-smile"></i><br />tidak ditemukan kata dengan pola tersebut</div>`;
-        resultsSection.style.display = 'block';
-        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (totalWords === 0) {
+        vocabContainer.innerHTML = `<div class="empty-state"><i class="fa-regular fa-face-smile-wink fa-2x"></i><br />tidak ada kata yang cocok dengan pola tersebut ✨</div>`;
+        resultPanel.style.display = 'block';
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
 
-      // Tampilkan hasil per kelompok kata kunci
-      resultsBox.innerHTML = '';
+      // render word groups
+      vocabContainer.innerHTML = '';
       keywords.forEach(kw => {
-        if (!groups[kw].length) return;
-        
+        const wordsArray = groups[kw];
+        if (!wordsArray.length) return;
         const groupDiv = document.createElement('div');
-        groupDiv.className = 'group-section';
-        groupDiv.innerHTML = `<div class="group-title"><i class="fa-regular fa-hashtag"></i> ${kw} <span>${groups[kw].length}</span></div>`;
-        
-        const cloud = document.createElement('div');
-        cloud.className = 'word-cloud';
-        
-        groups[kw].forEach(w => {
-          const tile = document.createElement('span');
-          tile.className = 'word-tile';
-          tile.innerHTML = highlightWord(w, kw, mode);
-          cloud.appendChild(tile);
+        groupDiv.className = 'keyword-group';
+        groupDiv.innerHTML = `
+          <div class="group-header">
+            <i class="fa-regular fa-tag"></i> ${kw}
+            <span class="group-badge">${wordsArray.length}</span>
+          </div>
+          <div class="word-wall" id="wordwall-${kw.replace(/[^a-z0-9]/gi, '-')}"></div>
+        `;
+        const wallDiv = groupDiv.querySelector('.word-wall');
+        wordsArray.forEach(word => {
+          const chip = document.createElement('span');
+          chip.className = 'word-badge';
+          chip.innerHTML = highlightWord(word, kw, mode);
+          wallDiv.appendChild(chip);
         });
-        
-        groupDiv.appendChild(cloud);
-        resultsBox.appendChild(groupDiv);
+        vocabContainer.appendChild(groupDiv);
       });
-
-      resultsSection.style.display = 'block';
-      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      resultPanel.style.display = 'block';
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // fungsi pencarian utama
     function performSearch(mode) {
-      const keywords = getKeywords();
-      if (keywords.length === 0) {
-        alert('masukkan setidaknya satu kata kunci');
+      if (!isReady) {
+        alert('kamus masih dimuat, tunggu sebentar');
         return;
       }
-      
+      const keywords = getKeywordsList();
+      if (keywords.length === 0) {
+        alert('masukkan minimal satu kata kunci (pisah koma / baris)');
+        return;
+      }
       setLoading(true);
-
+      // simulate micro delay for smooth ux
       setTimeout(() => {
-        const groups = {};
-        
+        const newGroups = {};
         keywords.forEach(kw => {
-          if (mode === 'depan') {
-            groups[kw] = dictionary.filter(w => w.startsWith(kw));
-          } else if (mode === 'belakang') {
-            groups[kw] = dictionary.filter(w => w.endsWith(kw));
-          } else {
-            groups[kw] = dictionary.filter(w => w.includes(kw));
-          }
-
-          // Default ascending
-          groups[kw].sort((a, b) => a.localeCompare(b));
+          let filtered = filterWordsByMode(masterWords, kw, mode);
+          // default sorting alphabetical asc
+          filtered.sort((a,b) => a.localeCompare(b));
+          newGroups[kw] = filtered;
         });
-
-        // Reset sort directions
-        sortDirections = {};
-        currentGroups = groups;
+        // reset sorting state
+        activeSort = {};
+        currentResultGroups = newGroups;
         currentMode = mode;
-        
+        renderFullResults(newGroups, mode);
         setLoading(false);
-        renderResults(groups, mode);
-      }, 100);
+      }, 60);
     }
 
-    // event listeners
-    document.getElementById('btn-depan').addEventListener('click', () => performSearch('depan'));
-    document.getElementById('btn-belakang').addEventListener('click', () => performSearch('belakang'));
-    document.getElementById('btn-semua').addEventListener('click', () => performSearch('semua'));
+    // quick chip demo populate
+    function setupQuickChips() {
+      const chips = document.querySelectorAll('.quick-chip');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const demoVal = chip.getAttribute('data-demo');
+          if (demoVal) keywordInput.value = demoVal;
+        });
+      });
+    }
 
-    // Enter di textarea tidak melakukan apa-apa
-    document.getElementById('keywords').addEventListener('keydown', (e) => {
+    // Event listeners
+    modeAwal.addEventListener('click', () => performSearch('depan'));
+    modeAkhir.addEventListener('click', () => performSearch('belakang'));
+    modeDalam.addEventListener('click', () => performSearch('semua'));
+
+    // optional: disable enter submit in textarea
+    keywordInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
       }
     });
 
-    // muat kamus
-    loadDictionary();
+    // init + load dictionary
+    fetchDictionary().then(() => {
+      setupQuickChips();
+      // optional first demo search hint (just show but not auto)
+    });
   })();
 </script>
 </body>
