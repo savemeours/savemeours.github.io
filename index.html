@@ -203,28 +203,42 @@
       transition: all 0.15s ease;
     }
     /* Memastikan semua icon font awesome tampil sempurna */
-    .fa, .fas, .far, .fal, .fab, .fa-solid, .fa-regular, .fa-brands {
+    .fa, .fas, .far, .fal, .fab, .fa-solid, .fa-regular, .fa-brands, i[class^="fa-"] {
       font-family: "Font Awesome 6 Free";
+      font-weight: 400;
     }
-    .fa-brands {
+    .fa-solid, .fas {
+      font-weight: 900;
+    }
+    .fa-regular, .far {
+      font-weight: 400;
+    }
+    .fa-brands, .fab {
       font-family: "Font Awesome 6 Brands";
+      font-weight: 400;
+    }
+    /* tambahan glassmorph efek untuk semua komponen */
+    .glass-card {
+      background: rgba(15, 25, 45, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(139, 92, 246, 0.2);
     }
   </style>
 </head>
 <body class="p-5 md:p-8 min-h-screen">
 
-  <!-- LOADING OVERLAY PREMIUM (untuk load kamus & pencarian berat) -->
+  <!-- LOADING OVERLAY PREMIUM -->
   <div id="loadingOverlay" class="loading-overlay">
     <div class="loading-spinner"></div>
     <div class="loading-text flex items-center gap-3">
       <i class="fa-solid fa-database"></i>
       <span id="loadingMessage">Memuat Neural Korpus...</span>
     </div>
-    <div class="text-xs text-slate-400 mt-2">Savemeours Kata Engine v3</div>
+    <div class="text-xs text-slate-400 mt-2">Savemeours Kata Engine v4</div>
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10">
-    <!-- Header premium dengan ikon yang berfungsi penuh (Font Awesome 6 solid/regular) -->
+    <!-- Header premium dengan ikon yang berfungsi penuh -->
     <div class="mb-10 space-y-5">
       <div class="flex flex-wrap gap-3 items-center">
         <div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40 shadow-md">
@@ -249,7 +263,7 @@
     <!-- Main Glass Container Premium -->
     <div class="glass-premium rounded-3xl p-6 md:p-9 transition-all duration-300 shadow-2xl">
       
-      <!-- Status Bar Canggih (dengan ikon yang dipastikan terbaca) -->
+      <!-- Status Bar Canggih -->
       <div class="flex flex-wrap items-center justify-between gap-4 bg-black/30 backdrop-blur-md rounded-2xl py-3.5 px-6 mb-8 border border-indigo-500/30 shadow-inner">
         <div class="flex items-center gap-3 text-sm font-semibold text-slate-200">
           <i class="fa-solid fa-cloud-arrow-up text-indigo-400"></i>
@@ -260,9 +274,9 @@
         </div>
       </div>
 
-      <!-- Input Panel (muncul setelah kamus ready) dengan ikon query builder yang jelas -->
+      <!-- Input Panel dengan efek glassmorph lebih tebal -->
       <div id="inputSection" class="hidden transition-all duration-500">
-        <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 shadow-2xl mb-7">
+        <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 shadow-2xl mb-7 glass-card">
           <div class="flex items-center gap-3 mb-5">
             <div class="bg-indigo-500/30 w-10 h-10 rounded-xl flex items-center justify-center text-indigo-300 backdrop-blur-sm">
               <i class="fa-solid fa-pen-ruler"></i>
@@ -288,9 +302,9 @@
         </div>
       </div>
 
-      <!-- Results Area Premium dengan ikon total kata yang jelas -->
+      <!-- Results Area Premium dengan efek glassmorph -->
       <div id="resultsArea" class="hidden transition-all duration-500 ease-out">
-        <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 backdrop-blur-sm">
+        <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 backdrop-blur-sm glass-card">
           <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
             <div class="flex items-center gap-3">
               <i class="fa-regular fa-rectangle-history text-2xl text-indigo-400"></i>
@@ -300,7 +314,7 @@
               <i class="fa-regular fa-cube"></i> <span id="totalWordsBadge">0 kata</span>
             </div>
           </div>
-          <!-- Dynamic sort chips container (per keyword) -->
+          <!-- Dynamic sort chips container -->
           <div id="sortingChipsContainer" class="flex flex-wrap gap-2.5 mb-6 pb-2 border-b border-indigo-500/20"></div>
           <!-- Vocab Grid dengan modern scroll -->
           <div id="vocabScrollContainer" class="max-h-[580px] overflow-y-auto custom-scrollbar pr-2 space-y-6"></div>
@@ -345,7 +359,7 @@
       
       let currentGroups = {};
       let currentMode = 'depan';
-      let sortState = {}; // { keyword: 'asc' | 'desc' | null }
+      let sortState = {};
       
       function showLoading(message = 'Memproses...') {
         if (loadingMessageSpan) loadingMessageSpan.innerText = message;
@@ -360,6 +374,11 @@
         return w.trim().replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
       }
       
+      // Filter kata yang valid bahasa Indonesia (minimal 2 huruf, hanya huruf)
+      function isValidIndonesianWord(word) {
+        return word.length >= 2 && /^[a-z]+$/.test(word);
+      }
+      
       async function loadDictionary() {
         try {
           showLoading('Menghubungkan ke neural korpus...');
@@ -367,8 +386,10 @@
           const resp = await fetch(KAMUS_URL);
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
           const raw = await resp.text();
-          const lines = raw.split(/\r?\n/).map(l => cleanWord(l)).filter(l => l.length > 0);
+          const lines = raw.split(/\r?\n/).map(l => cleanWord(l)).filter(l => l.length > 0 && isValidIndonesianWord(l));
           masterWords = [...new Set(lines)];
+          // Urutkan alfabetis untuk tampilan lebih rapi
+          masterWords.sort((a,b) => a.localeCompare(b, 'id'));
           const total = masterWords.length;
           dictCountPill.innerText = total.toLocaleString('id') + ' entri';
           dictStatusSpan.innerHTML = `<i class="fa-regular fa-circle-check text-emerald-400"></i> korpus siap · ${total.toLocaleString('id')} lema unik`;
@@ -386,7 +407,7 @@
       
       function getKeywords() {
         let raw = keywordTextarea.value;
-        return raw.split(/[,\n]+/).map(k => k.trim().toLowerCase()).filter(k => k.length > 0);
+        return raw.split(/[,\n]+/).map(k => k.trim().toLowerCase()).filter(k => k.length > 0 && /^[a-z]+$/.test(k));
       }
       
       function filterByMode(words, keyword, mode) {
@@ -402,7 +423,6 @@
         return [...arr];
       }
       
-      // Highlight dengan class modern sesuai mode
       function highlightWord(word, keyword, mode) {
         let idx = -1;
         if (mode === 'depan') {
@@ -448,7 +468,6 @@
         keys.forEach(k => { totalAll += currentGroups[k].length; });
         totalWordsBadge.innerText = totalAll.toLocaleString('id') + ' kata';
         
-        // Build sorting chips (modern, dengan ikon dan badge count)
         sortingChipsDiv.innerHTML = '';
         keys.forEach(kw => {
           const count = currentGroups[kw].length;
@@ -472,7 +491,6 @@
           sortingChipsDiv.appendChild(chip);
         });
         
-        // Render word groups dengan desain modern per keyword
         vocabContainer.innerHTML = '';
         for (let kw of keys) {
           const wordsArr = currentGroups[kw];
@@ -512,13 +530,12 @@
           return;
         }
         
-        // Tampilkan loading overlay saat pencarian berlangsung
         showLoading(`Mencari dengan mode ${mode === 'depan' ? 'Berawalan' : mode === 'belakang' ? 'Berakhiran' : 'Mengandung'}...`);
         searchProgress.classList.remove('hidden');
         const btns = [btnAwalan, btnAkhiran, btnMengandung];
         btns.forEach(btn => btn.disabled = true);
         
-        await new Promise(r => setTimeout(r, 50));
+        await new Promise(r => setTimeout(r, 30));
         
         try {
           const newGroups = {};
@@ -559,7 +576,6 @@
             if (val) keywordTextarea.value = val;
           });
         });
-        // Shortcut Ctrl/Cmd + Enter untuk pencarian 'Mengandung'
         keywordTextarea.addEventListener('keydown', (e) => {
           if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
@@ -568,7 +584,6 @@
         });
       }
       
-      // Initial load with overlay
       loadDictionary().then(() => {
         bindEvents();
       }).catch(e => {
