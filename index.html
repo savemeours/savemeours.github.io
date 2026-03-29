@@ -1,132 +1,492 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kamus AI Modern</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-body {
-  font-family: 'Inter', sans-serif;
-  background: #0b0f1a;
-  color: #e5e7eb;
-}
-.glass {
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.gradient {
-  background: linear-gradient(135deg,#6366f1,#8b5cf6);
-}
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Savemeours Kata · Neural Lexicon · Dark Mode Pro</title>
+  <!-- Tailwind CSS v3 + Font Awesome 6 + Google Fonts Modern -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (Free) dengan dukungan penuh ikon solid/regular/brands -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Reset & base modern dark - lebih canggih dengan gradien dinamis */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(ellipse at 30% 40%, #0A0F1E 0%, #03050B 100%);
+      color: #F1F5F9;
+      scroll-behavior: smooth;
+    }
+    /* Glassmorphism premium - efek kaca mewah dengan blur & highlight */
+    .glass-premium {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .card-elevated {
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(71, 85, 105, 0.4);
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .card-elevated:hover {
+      border-color: rgba(139, 92, 246, 0.6);
+      box-shadow: 0 12px 28px -12px rgba(79, 70, 229, 0.3);
+    }
+    /* Input modern dengan glow effect */
+    .input-neo {
+      background: #0F1422;
+      border: 1.5px solid #2D3A5E;
+      transition: all 0.2s ease;
+      color: #F8FAFC;
+      border-radius: 1.25rem;
+    }
+    .input-neo:focus {
+      border-color: #8B5CF6;
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+      outline: none;
+      background: #111827;
+    }
+    /* Button modern gradient */
+    .btn-glow-primary {
+      background: linear-gradient(95deg, #4F46E5, #7C3AED);
+      border: none;
+      box-shadow: 0 8px 20px -8px rgba(79, 70, 229, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-glow-primary:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(95deg, #6366F1, #8B5CF6);
+      box-shadow: 0 15px 25px -10px #6D28D9;
+    }
+    .btn-glass-secondary {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid #334155;
+      transition: all 0.2s;
+    }
+    .btn-glass-secondary:hover {
+      background: #2D3A52;
+      border-color: #A78BFA;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px -6px #00000050;
+    }
+    /* Word badges modern */
+    .word-chip-premium {
+      background: #0B1120;
+      border: 1px solid #25324B;
+      color: #E2E8F0;
+      transition: all 0.18s ease;
+      border-radius: 2rem;
+    }
+    .word-chip-premium:hover {
+      background: #1E293B;
+      border-color: #C084FC;
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      color: white;
+    }
+    /* Filter pills with active state modern */
+    .filter-pill {
+      background: #0F172A;
+      border: 1px solid #334155;
+      color: #CBD5E1;
+      transition: all 0.2s;
+      border-radius: 40px;
+    }
+    .filter-pill.active {
+      background: #4F46E5;
+      border-color: #C084FC;
+      color: white;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+    }
+    /* Highlight styles for substring matches - lebih canggih */
+    .hl-depan {
+      background: linear-gradient(120deg, #10B98140, #05966960);
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 0 6px;
+      color: #A7F3D0;
+    }
+    .hl-belakang {
+      background: linear-gradient(120deg, #F59E0B40, #D9770640);
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 0 6px;
+      color: #FDE68A;
+    }
+    .hl-semua {
+      background: linear-gradient(120deg, #8B5CF660, #A78BFA60);
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 0 6px;
+      color: #E9D5FF;
+    }
+    /* Shimmer loading effect premium */
+    .shimmer-premium {
+      background: linear-gradient(90deg, #1E293B 0%, #4F46E5 40%, #A855F7 70%, #1E293B 100%);
+      background-size: 200% 100%;
+      animation: shimmerFlow 1.3s infinite ease;
+    }
+    @keyframes shimmerFlow {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    /* Custom scrollbar elegant */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #111827;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #6B7280;
+      border-radius: 10px;
+    }
+    /* animasi mikro */
+    button:active {
+      transform: scale(0.97);
+    }
+    .transition-micro {
+      transition: all 0.15s ease;
+    }
+  </style>
 </head>
+<body class="p-5 md:p-8 min-h-screen">
 
-<body class="p-6">
-
-<div class="max-w-6xl mx-auto space-y-6">
-
-<!-- HEADER -->
-<div class="flex justify-between items-center">
-  <h1 class="text-3xl font-bold tracking-tight">🔍 Kamus AI</h1>
-  <div class="text-sm text-gray-400" id="count">0 kata</div>
-</div>
-
-<!-- SEARCH BAR -->
-<div class="glass rounded-2xl p-4 flex gap-3 items-center">
-  <input id="input" placeholder="Cari kata... (pisahkan koma)"
-    class="flex-1 bg-transparent outline-none text-lg" />
-  <button id="search" class="gradient px-5 py-2 rounded-xl font-semibold">Cari</button>
-</div>
-
-<!-- MODE SELECT -->
-<div class="flex gap-3">
-  <button data-mode="prefix" class="mode px-4 py-2 rounded-xl glass">Awalan</button>
-  <button data-mode="suffix" class="mode px-4 py-2 rounded-xl glass">Akhiran</button>
-  <button data-mode="contains" class="mode px-4 py-2 rounded-xl gradient">Mengandung</button>
-</div>
-
-<!-- RESULTS -->
-<div id="results" class="grid md:grid-cols-2 gap-4"></div>
-
-</div>
-
-<script>
-const URL = "https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt";
-let words = [];
-let mode = 'contains';
-
-async function load() {
-  const res = await fetch(URL);
-  const text = await res.text();
-  words = [...new Set(text.split('\n').map(v => v.trim().toLowerCase()).filter(Boolean))];
-  document.getElementById('count').innerText = words.length + " kata";
-}
-
-function searchWords(keys) {
-  return keys.map(k => {
-    let res;
-    if (mode === 'prefix') res = words.filter(w => w.startsWith(k));
-    else if (mode === 'suffix') res = words.filter(w => w.endsWith(k));
-    else res = words.filter(w => w.includes(k));
-    return { key: k, words: res };
-  });
-}
-
-function render(data) {
-  const container = document.getElementById('results');
-  container.innerHTML = '';
-
-  data.forEach(group => {
-    const div = document.createElement('div');
-    div.className = "glass rounded-xl p-4 card-hover";
-
-    div.innerHTML = `
-      <div class="flex justify-between mb-3">
-        <b>${group.key}</b>
-        <span class="text-xs text-gray-400">${group.words.length}</span>
+  <div class="max-w-7xl mx-auto relative z-10">
+    <!-- Header premium dengan ikon yang berfungsi penuh (Font Awesome 6 solid/regular) -->
+    <div class="mb-10 space-y-5">
+      <div class="flex flex-wrap gap-3 items-center">
+        <div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40 shadow-md">
+          <i class="fa-solid fa-brain text-indigo-300"></i> <span>AI Lexicon Engine</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40">
+          <i class="fa-solid fa-chart-simple text-indigo-300"></i> <span>Stemmer Pro</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40">
+          <i class="fa-solid fa-sliders-up"></i> <span>Multi-Sort Cerdas</span>
+        </div>
       </div>
-      <div class="flex flex-wrap gap-2">
-        ${group.words.slice(0,200).map(w => `<span class='px-3 py-1 bg-white/5 rounded-full text-sm'>${w}</span>`).join('')}
+      <h1 class="font-extrabold text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-tight bg-gradient-to-r from-indigo-200 via-purple-100 to-violet-300 bg-clip-text text-transparent drop-shadow-2xl">
+        Savemeours<span class="bg-gradient-to-r from-white to-indigo-300 bg-clip-text"> Kata</span>
+      </h1>
+      <div class="flex items-center gap-3 text-indigo-200/90 border-l-4 border-violet-500 pl-5 text-sm md:text-base font-medium">
+        <i class="fa-regular fa-sparkles fa-fw text-violet-400"></i>
+        <span>korpus pintar 26k+ lema · pencarian awalan, akhiran, & sub-kata instan</span>
       </div>
-    `;
+    </div>
 
-    container.appendChild(div);
-  });
-}
+    <!-- Main Glass Container Premium -->
+    <div class="glass-premium rounded-3xl p-6 md:p-9 transition-all duration-300 shadow-2xl">
+      
+      <!-- Status Bar Canggih -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-black/30 backdrop-blur-md rounded-2xl py-3.5 px-6 mb-8 border border-indigo-500/30 shadow-inner">
+        <div class="flex items-center gap-3 text-sm font-semibold text-slate-200">
+          <i class="fa-solid fa-cloud-arrow-up text-indigo-400"></i>
+          <span id="dictStatusText" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i> memuat neural korpus...</span>
+        </div>
+        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-full px-5 py-1.5 text-sm font-bold tracking-wide shadow-lg backdrop-blur-sm flex items-center gap-2">
+          <i class="fa-regular fa-bookmark"></i> <span id="dictCountPill">0 entri</span>
+        </div>
+      </div>
 
-// EVENTS
+      <!-- Input Panel (muncul setelah kamus ready) -->
+      <div id="inputSection" class="hidden transition-all duration-500">
+        <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 shadow-2xl mb-7">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="bg-indigo-500/30 w-10 h-10 rounded-xl flex items-center justify-center text-indigo-300 backdrop-blur-sm"><i class="fa-solid fa-pen-field"></i></div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 bg-indigo-950/40 px-3 py-1 rounded-full">Query Builder</span>
+          </div>
+          <textarea id="keywordTextarea" rows="2" class="w-full input-neo p-4 font-mono text-sm resize-none focus:ring-0" placeholder="Masukkan kata kunci, pisahkan dengan koma atau baris baru&#10;contoh: a, buku, mang, terang, kan">a, buku, mang</textarea>
+          <div class="flex flex-wrap gap-3 mt-4">
+            <button data-demo="a, buku, mang" class="quick-demo bg-slate-800/60 border border-slate-700 text-slate-300 text-xs rounded-full px-5 py-2 transition-all hover:bg-slate-700 flex items-center gap-2"><i class="fa-regular fa-clock"></i> contoh awal</button>
+            <button data-demo="an, kan, i, man" class="quick-demo bg-slate-800/60 border border-slate-700 text-slate-300 text-xs rounded-full px-5 py-2 transition-all flex items-center gap-2"><i class="fa-regular fa-flag"></i> akhiran populer</button>
+            <button data-demo="ber, me, per, di" class="quick-demo bg-slate-800/60 border border-slate-700 text-slate-300 text-xs rounded-full px-5 py-2 transition-all flex items-center gap-2"><i class="fa-solid fa-repeat"></i> prefiks umum</button>
+          </div>
+          <div id="searchProgressBar" class="mt-5 h-1.5 bg-slate-800/70 rounded-full overflow-hidden hidden">
+            <div class="shimmer-premium w-full h-full rounded-full"></div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-7">
+            <button id="btnAwalan" class="btn-glass-secondary flex items-center justify-center gap-3 rounded-xl py-3.5 font-bold transition-all shadow-md"><i class="fa-solid fa-arrow-left-long"></i> Berawalan</button>
+            <button id="btnAkhiran" class="btn-glass-secondary flex items-center justify-center gap-3 rounded-xl py-3.5 font-bold transition-all shadow-md"><i class="fa-solid fa-arrow-right-long"></i> Berakhiran</button>
+            <button id="btnMengandung" class="btn-glow-primary flex items-center justify-center gap-3 rounded-xl py-3.5 font-bold transition-all shadow-xl"><i class="fa-solid fa-diagram-project"></i> Mengandung</button>
+          </div>
+        </div>
+      </div>
 
-document.getElementById('search').onclick = () => {
-  const keys = document.getElementById('input').value
-    .split(/[,\n]/)
-    .map(v => v.trim())
-    .filter(Boolean);
+      <!-- Results Area Premium -->
+      <div id="resultsArea" class="hidden transition-all duration-500 ease-out">
+        <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 backdrop-blur-sm">
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+            <div class="flex items-center gap-3">
+              <i class="fa-regular fa-rectangle-history text-2xl text-indigo-400"></i>
+              <h2 class="text-2xl md:text-3xl font-bold font-['Plus Jakarta Sans'] text-white tracking-tight"><span id="modeLabel">Hasil Pencarian</span></h2>
+            </div>
+            <div class="bg-indigo-950/50 rounded-full px-5 py-2.5 shadow-sm text-sm font-bold text-indigo-200 border border-indigo-400/40 flex items-center gap-2 backdrop-blur-sm">
+              <i class="fa-regular fa-cube"></i> <span id="totalWordsBadge">0 kata</span>
+            </div>
+          </div>
+          <!-- Dynamic sort chips container (per keyword) -->
+          <div id="sortingChipsContainer" class="flex flex-wrap gap-2.5 mb-6 pb-2 border-b border-indigo-500/20"></div>
+          <!-- Vocab Grid dengan modern scroll -->
+          <div id="vocabScrollContainer" class="max-h-[580px] overflow-y-auto custom-scrollbar pr-2 space-y-6"></div>
+          <div id="emptyResultMessage" class="hidden text-center py-14 text-slate-400 flex flex-col items-center gap-3">
+            <i class="fa-regular fa-compass text-5xl text-indigo-500/50"></i>
+            <p class="font-medium text-lg">tidak ada kata yang cocok</p>
+            <p class="text-xs">coba variasi kata kunci atau mode pencarian lain ✨</p>
+          </div>
+        </div>
+      </div>
 
-  if (!keys.length) return alert('isi dulu');
+      <div class="mt-10 text-center text-slate-500 text-xs flex justify-center gap-6 border-t border-indigo-500/20 pt-6">
+        <i class="fa-regular fa-copyright"></i> Savemeours Kata · semantic corpus v2 · <span class="text-indigo-300 font-mono">by savemeours</span>
+      </div>
+    </div>
+  </div>
 
-  const result = searchWords(keys);
-  render(result);
-};
-
-
-document.querySelectorAll('.mode').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.mode').forEach(b => b.classList.remove('gradient'));
-    btn.classList.add('gradient');
-    mode = btn.dataset.mode;
-  };
-});
-
-load();
-</script>
-
+  <script>
+    (function() {
+      // ---------- KAMUS & KONFIGURASI ----------
+      const KAMUS_URL = 'https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt';
+      let masterWords = [];
+      let isDictReady = false;
+      
+      // DOM Elements
+      const dictStatusSpan = document.getElementById('dictStatusText');
+      const dictCountPill = document.getElementById('dictCountPill');
+      const inputSection = document.getElementById('inputSection');
+      const resultsArea = document.getElementById('resultsArea');
+      const keywordTextarea = document.getElementById('keywordTextarea');
+      const searchProgress = document.getElementById('searchProgressBar');
+      const btnAwalan = document.getElementById('btnAwalan');
+      const btnAkhiran = document.getElementById('btnAkhiran');
+      const btnMengandung = document.getElementById('btnMengandung');
+      const modeLabelSpan = document.getElementById('modeLabel');
+      const totalWordsBadge = document.getElementById('totalWordsBadge');
+      const sortingChipsDiv = document.getElementById('sortingChipsContainer');
+      const vocabContainer = document.getElementById('vocabScrollContainer');
+      const emptyMessageDiv = document.getElementById('emptyMessageResult');
+      
+      let currentGroups = {};
+      let currentMode = 'depan';
+      let sortState = {}; // { keyword: 'asc' | 'desc' | null }
+      
+      function cleanWord(w) {
+        return w.trim().replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
+      }
+      
+      async function loadDictionary() {
+        try {
+          dictStatusSpan.innerHTML = '<i class="fa-solid fa-spinner fa-pulse"></i> menghubungkan ke neural korpus...';
+          const resp = await fetch(KAMUS_URL);
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          const raw = await resp.text();
+          const lines = raw.split(/\r?\n/).map(l => cleanWord(l)).filter(l => l.length > 0);
+          masterWords = [...new Set(lines)];
+          const total = masterWords.length;
+          dictCountPill.innerText = total.toLocaleString('id') + ' entri';
+          dictStatusSpan.innerHTML = `<i class="fa-regular fa-circle-check text-emerald-400"></i> korpus siap · ${total.toLocaleString('id')} lema unik`;
+          inputSection.classList.remove('hidden');
+          isDictReady = true;
+        } catch (err) {
+          console.error(err);
+          dictStatusSpan.innerHTML = '<i class="fa-regular fa-circle-exclamation text-red-400"></i> gagal muat kamus, refresh halaman';
+          dictCountPill.innerText = 'error';
+        }
+      }
+      
+      function getKeywords() {
+        let raw = keywordTextarea.value;
+        return raw.split(/[,\n]+/).map(k => k.trim().toLowerCase()).filter(k => k.length > 0);
+      }
+      
+      function filterByMode(words, keyword, mode) {
+        if (mode === 'depan') return words.filter(w => w.startsWith(keyword));
+        if (mode === 'belakang') return words.filter(w => w.endsWith(keyword));
+        return words.filter(w => w.includes(keyword));
+      }
+      
+      function sortWords(arr, type) {
+        if (!type) return [...arr];
+        if (type === 'asc') return [...arr].sort((a,b) => a.localeCompare(b, 'id'));
+        if (type === 'desc') return [...arr].sort((a,b) => b.localeCompare(a, 'id'));
+        return [...arr];
+      }
+      
+      // Highlight dengan class modern sesuai mode
+      function highlightWord(word, keyword, mode) {
+        let idx = -1;
+        if (mode === 'depan') {
+          if (word.startsWith(keyword)) idx = 0;
+        } else if (mode === 'belakang') {
+          if (word.endsWith(keyword)) idx = word.length - keyword.length;
+        } else {
+          idx = word.indexOf(keyword);
+        }
+        if (idx === -1) return word;
+        const before = word.slice(0, idx);
+        const match = word.slice(idx, idx + keyword.length);
+        const after = word.slice(idx + keyword.length);
+        let cls = '';
+        if (mode === 'depan') cls = 'hl-depan';
+        else if (mode === 'belakang') cls = 'hl-belakang';
+        else cls = 'hl-semua';
+        return `${before}<span class="${cls}">${match}</span>${after}`;
+      }
+      
+      function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          return m;
+        });
+      }
+      
+      function renderResults() {
+        if (!currentGroups || Object.keys(currentGroups).length === 0) {
+          resultsArea.classList.remove('hidden');
+          if (emptyMessageDiv) emptyMessageDiv.classList.remove('hidden');
+          if (vocabContainer) vocabContainer.innerHTML = '';
+          if (sortingChipsDiv) sortingChipsDiv.innerHTML = '';
+          totalWordsBadge.innerText = '0 kata';
+          return;
+        }
+        if (emptyMessageDiv) emptyMessageDiv.classList.add('hidden');
+        
+        let totalAll = 0;
+        const keys = Object.keys(currentGroups);
+        keys.forEach(k => { totalAll += currentGroups[k].length; });
+        totalWordsBadge.innerText = totalAll.toLocaleString('id') + ' kata';
+        
+        // Build sorting chips (modern, dengan ikon dan badge count)
+        sortingChipsDiv.innerHTML = '';
+        keys.forEach(kw => {
+          const count = currentGroups[kw].length;
+          const currentSort = sortState[kw] || null;
+          let iconHtml = '<i class="fa-solid fa-arrow-up-wide-short"></i>';
+          let activeClass = '';
+          if (currentSort === 'asc') { iconHtml = '<i class="fa-solid fa-arrow-up-a-z"></i>'; activeClass = 'active'; }
+          else if (currentSort === 'desc') { iconHtml = '<i class="fa-solid fa-arrow-down-z-a"></i>'; activeClass = 'active'; }
+          
+          const chip = document.createElement('button');
+          chip.className = `filter-pill flex items-center gap-2 text-sm font-medium rounded-full px-4 py-2 transition-all shadow-sm ${activeClass}`;
+          chip.innerHTML = `${iconHtml} <span class="max-w-[140px] truncate font-mono">${escapeHtml(kw)}</span> <span class="bg-black/30 rounded-full px-2 py-0.5 text-xs font-bold ml-1">${count}</span>`;
+          chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!sortState[kw]) sortState[kw] = 'asc';
+            else if (sortState[kw] === 'asc') sortState[kw] = 'desc';
+            else sortState[kw] = null;
+            currentGroups[kw] = sortWords(currentGroups[kw], sortState[kw]);
+            renderResults();
+          });
+          sortingChipsDiv.appendChild(chip);
+        });
+        
+        // Render word groups dengan desain modern per keyword
+        vocabContainer.innerHTML = '';
+        for (let kw of keys) {
+          const wordsArr = currentGroups[kw];
+          if (!wordsArr.length) continue;
+          const groupDiv = document.createElement('div');
+          groupDiv.className = 'bg-black/20 rounded-xl p-4 border border-white/5 hover:border-indigo-500/30 transition-all duration-200';
+          const groupId = `wordGroup-${kw.replace(/[^a-z0-9]/gi, '-')}`;
+          groupDiv.innerHTML = `
+            <div class="flex items-center gap-2 mb-4 pb-2 border-b border-indigo-500/30">
+              <i class="fa-regular fa-tag text-indigo-400"></i>
+              <h3 class="font-bold text-indigo-200 text-base font-mono tracking-wide">${escapeHtml(kw)}</h3>
+              <span class="text-xs bg-indigo-800/60 rounded-full px-2.5 py-0.5 font-semibold text-indigo-200 flex items-center gap-1"><i class="fa-regular fa-copy"></i> ${wordsArr.length}</span>
+            </div>
+            <div class="flex flex-wrap gap-2.5" id="${groupId}"></div>
+          `;
+          const wallDiv = groupDiv.querySelector(`#${groupId}`);
+          wordsArr.forEach(word => {
+            const badge = document.createElement('span');
+            badge.className = 'word-chip-premium inline-block rounded-full px-4 py-1.5 text-sm font-medium cursor-default shadow-sm transition-all duration-150';
+            badge.innerHTML = highlightWord(word, kw, currentMode);
+            wallDiv.appendChild(badge);
+          });
+          vocabContainer.appendChild(groupDiv);
+        }
+        resultsArea.classList.remove('hidden');
+        resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      
+      async function performSearch(mode) {
+        if (!isDictReady) {
+          alert('Kamus sedang disinkronisasi, silakan tunggu sebentar.');
+          return;
+        }
+        const keywords = getKeywords();
+        if (keywords.length === 0) {
+          alert('Masukkan minimal satu kata kunci (pisahkan dengan koma atau baris baru)');
+          return;
+        }
+        searchProgress.classList.remove('hidden');
+        const btns = [btnAwalan, btnAkhiran, btnMengandung];
+        btns.forEach(btn => btn.disabled = true);
+        
+        await new Promise(r => setTimeout(r, 20));
+        
+        const newGroups = {};
+        for (let kw of keywords) {
+          let filtered = filterByMode(masterWords, kw, mode);
+          filtered = [...new Set(filtered)];
+          filtered.sort((a,b) => a.localeCompare(b, 'id'));
+          newGroups[kw] = filtered;
+        }
+        currentGroups = newGroups;
+        currentMode = mode;
+        const newSortState = {};
+        keywords.forEach(kw => { newSortState[kw] = null; });
+        sortState = newSortState;
+        
+        let labelMode = '';
+        if (mode === 'depan') labelMode = '🔍 Berawalan · prefix match';
+        else if (mode === 'belakang') labelMode = '⚡ Berakhiran · suffix match';
+        else labelMode = '🌀 Mengandung · substring semantic';
+        modeLabelSpan.innerText = labelMode;
+        
+        searchProgress.classList.add('hidden');
+        btns.forEach(btn => btn.disabled = false);
+        renderResults();
+      }
+      
+      function bindEvents() {
+        btnAwalan.addEventListener('click', () => performSearch('depan'));
+        btnAkhiran.addEventListener('click', () => performSearch('belakang'));
+        btnMengandung.addEventListener('click', () => performSearch('semua'));
+        
+        const demoButtons = document.querySelectorAll('.quick-demo');
+        demoButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const val = btn.getAttribute('data-demo');
+            if (val) keywordTextarea.value = val;
+          });
+        });
+        // Shortcut Ctrl/Cmd + Enter untuk pencarian 'Mengandung'
+        keywordTextarea.addEventListener('keydown', (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            performSearch('semua');
+          }
+        });
+      }
+      
+      loadDictionary().then(() => {
+        bindEvents();
+      }).catch(e => console.warn(e));
+    })();
+  </script>
 </body>
 </html>
