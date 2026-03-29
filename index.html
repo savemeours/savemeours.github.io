@@ -152,6 +152,49 @@
       background: #6B7280;
       border-radius: 10px;
     }
+    /* Loading Overlay Modern */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3, 5, 11, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    .loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(139, 92, 246, 0.2);
+      border-top: 3px solid #8B5CF6;
+      border-right: 3px solid #A855F7;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-text {
+      font-size: 1rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, #C084FC, #818CF8);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: 0.5px;
+    }
     /* animasi mikro */
     button:active {
       transform: scale(0.97);
@@ -159,9 +202,26 @@
     .transition-micro {
       transition: all 0.15s ease;
     }
+    /* Memastikan semua icon font awesome tampil sempurna */
+    .fa, .fas, .far, .fal, .fab, .fa-solid, .fa-regular, .fa-brands {
+      font-family: "Font Awesome 6 Free";
+    }
+    .fa-brands {
+      font-family: "Font Awesome 6 Brands";
+    }
   </style>
 </head>
 <body class="p-5 md:p-8 min-h-screen">
+
+  <!-- LOADING OVERLAY PREMIUM (untuk load kamus & pencarian berat) -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text flex items-center gap-3">
+      <i class="fa-solid fa-database"></i>
+      <span id="loadingMessage">Memuat Neural Korpus...</span>
+    </div>
+    <div class="text-xs text-slate-400 mt-2">Savemeours Kata Engine v3</div>
+  </div>
 
   <div class="max-w-7xl mx-auto relative z-10">
     <!-- Header premium dengan ikon yang berfungsi penuh (Font Awesome 6 solid/regular) -->
@@ -189,7 +249,7 @@
     <!-- Main Glass Container Premium -->
     <div class="glass-premium rounded-3xl p-6 md:p-9 transition-all duration-300 shadow-2xl">
       
-      <!-- Status Bar Canggih -->
+      <!-- Status Bar Canggih (dengan ikon yang dipastikan terbaca) -->
       <div class="flex flex-wrap items-center justify-between gap-4 bg-black/30 backdrop-blur-md rounded-2xl py-3.5 px-6 mb-8 border border-indigo-500/30 shadow-inner">
         <div class="flex items-center gap-3 text-sm font-semibold text-slate-200">
           <i class="fa-solid fa-cloud-arrow-up text-indigo-400"></i>
@@ -200,12 +260,16 @@
         </div>
       </div>
 
-      <!-- Input Panel (muncul setelah kamus ready) -->
+      <!-- Input Panel (muncul setelah kamus ready) dengan ikon query builder yang jelas -->
       <div id="inputSection" class="hidden transition-all duration-500">
         <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 shadow-2xl mb-7">
           <div class="flex items-center gap-3 mb-5">
-            <div class="bg-indigo-500/30 w-10 h-10 rounded-xl flex items-center justify-center text-indigo-300 backdrop-blur-sm"><i class="fa-solid fa-pen-field"></i></div>
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 bg-indigo-950/40 px-3 py-1 rounded-full">Query Builder</span>
+            <div class="bg-indigo-500/30 w-10 h-10 rounded-xl flex items-center justify-center text-indigo-300 backdrop-blur-sm">
+              <i class="fa-solid fa-pen-ruler"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 bg-indigo-950/40 px-3 py-1 rounded-full flex items-center gap-1">
+              <i class="fa-regular fa-rectangle-terminal"></i> Query Builder
+            </span>
           </div>
           <textarea id="keywordTextarea" rows="2" class="w-full input-neo p-4 font-mono text-sm resize-none focus:ring-0" placeholder="Masukkan kata kunci, pisahkan dengan koma atau baris baru&#10;contoh: a, buku, mang, terang, kan">a, buku, mang</textarea>
           <div class="flex flex-wrap gap-3 mt-4">
@@ -224,7 +288,7 @@
         </div>
       </div>
 
-      <!-- Results Area Premium -->
+      <!-- Results Area Premium dengan ikon total kata yang jelas -->
       <div id="resultsArea" class="hidden transition-all duration-500 ease-out">
         <div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 backdrop-blur-sm">
           <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
@@ -275,11 +339,22 @@
       const totalWordsBadge = document.getElementById('totalWordsBadge');
       const sortingChipsDiv = document.getElementById('sortingChipsContainer');
       const vocabContainer = document.getElementById('vocabScrollContainer');
-      const emptyMessageDiv = document.getElementById('emptyMessageResult');
+      const emptyMessageDiv = document.getElementById('emptyResultMessage');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const loadingMessageSpan = document.getElementById('loadingMessage');
       
       let currentGroups = {};
       let currentMode = 'depan';
       let sortState = {}; // { keyword: 'asc' | 'desc' | null }
+      
+      function showLoading(message = 'Memproses...') {
+        if (loadingMessageSpan) loadingMessageSpan.innerText = message;
+        if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+      }
+      
+      function hideLoading() {
+        if (loadingOverlay) loadingOverlay.classList.add('hidden');
+      }
       
       function cleanWord(w) {
         return w.trim().replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
@@ -287,6 +362,7 @@
       
       async function loadDictionary() {
         try {
+          showLoading('Menghubungkan ke neural korpus...');
           dictStatusSpan.innerHTML = '<i class="fa-solid fa-spinner fa-pulse"></i> menghubungkan ke neural korpus...';
           const resp = await fetch(KAMUS_URL);
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -298,10 +374,13 @@
           dictStatusSpan.innerHTML = `<i class="fa-regular fa-circle-check text-emerald-400"></i> korpus siap · ${total.toLocaleString('id')} lema unik`;
           inputSection.classList.remove('hidden');
           isDictReady = true;
+          hideLoading();
         } catch (err) {
           console.error(err);
           dictStatusSpan.innerHTML = '<i class="fa-regular fa-circle-exclamation text-red-400"></i> gagal muat kamus, refresh halaman';
           dictCountPill.innerText = 'error';
+          hideLoading();
+          alert('Gagal memuat kamus. Periksa koneksi atau coba lagi nanti.');
         }
       }
       
@@ -432,34 +511,40 @@
           alert('Masukkan minimal satu kata kunci (pisahkan dengan koma atau baris baru)');
           return;
         }
+        
+        // Tampilkan loading overlay saat pencarian berlangsung
+        showLoading(`Mencari dengan mode ${mode === 'depan' ? 'Berawalan' : mode === 'belakang' ? 'Berakhiran' : 'Mengandung'}...`);
         searchProgress.classList.remove('hidden');
         const btns = [btnAwalan, btnAkhiran, btnMengandung];
         btns.forEach(btn => btn.disabled = true);
         
-        await new Promise(r => setTimeout(r, 20));
+        await new Promise(r => setTimeout(r, 50));
         
-        const newGroups = {};
-        for (let kw of keywords) {
-          let filtered = filterByMode(masterWords, kw, mode);
-          filtered = [...new Set(filtered)];
-          filtered.sort((a,b) => a.localeCompare(b, 'id'));
-          newGroups[kw] = filtered;
+        try {
+          const newGroups = {};
+          for (let kw of keywords) {
+            let filtered = filterByMode(masterWords, kw, mode);
+            filtered = [...new Set(filtered)];
+            filtered.sort((a,b) => a.localeCompare(b, 'id'));
+            newGroups[kw] = filtered;
+          }
+          currentGroups = newGroups;
+          currentMode = mode;
+          const newSortState = {};
+          keywords.forEach(kw => { newSortState[kw] = null; });
+          sortState = newSortState;
+          
+          let labelMode = '';
+          if (mode === 'depan') labelMode = '🔍 Berawalan · prefix match';
+          else if (mode === 'belakang') labelMode = '⚡ Berakhiran · suffix match';
+          else labelMode = '🌀 Mengandung · substring semantic';
+          modeLabelSpan.innerText = labelMode;
+        } finally {
+          searchProgress.classList.add('hidden');
+          btns.forEach(btn => btn.disabled = false);
+          renderResults();
+          hideLoading();
         }
-        currentGroups = newGroups;
-        currentMode = mode;
-        const newSortState = {};
-        keywords.forEach(kw => { newSortState[kw] = null; });
-        sortState = newSortState;
-        
-        let labelMode = '';
-        if (mode === 'depan') labelMode = '🔍 Berawalan · prefix match';
-        else if (mode === 'belakang') labelMode = '⚡ Berakhiran · suffix match';
-        else labelMode = '🌀 Mengandung · substring semantic';
-        modeLabelSpan.innerText = labelMode;
-        
-        searchProgress.classList.add('hidden');
-        btns.forEach(btn => btn.disabled = false);
-        renderResults();
       }
       
       function bindEvents() {
@@ -483,9 +568,13 @@
         });
       }
       
+      // Initial load with overlay
       loadDictionary().then(() => {
         bindEvents();
-      }).catch(e => console.warn(e));
+      }).catch(e => {
+        console.warn(e);
+        hideLoading();
+      });
     })();
   </script>
 </body>
