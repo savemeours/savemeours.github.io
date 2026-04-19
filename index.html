@@ -1,1 +1,893 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Savemeours Kata · Kamus Cerdas Nusantara</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><style>*{margin: 0;padding: 0;box-sizing: border-box}body{font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;background: radial-gradient(ellipse at 30% 40%, #0A0F1E 0%, #03050B 100%);color: #F1F5F9;scroll-behavior: smooth}.glass-premium{background: rgba(15, 23, 42, 0.55);backdrop-filter: blur(20px);border: 1px solid rgba(139, 92, 246, 0.3);box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08)}.card-elevated{background: rgba(10, 14, 23, 0.7);backdrop-filter: blur(16px);border: 1px solid rgba(71, 85, 105, 0.5);transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1)}.card-elevated:hover{border-color: rgba(139, 92, 246, 0.7);box-shadow: 0 12px 28px -12px rgba(79, 70, 229, 0.4)}.input-neo{background: #0F1422cc;border: 1.5px solid #2D3A5E;transition: all 0.2s ease;color: #F8FAFC;border-radius: 1.25rem}.input-neo:focus{border-color: #8B5CF6;box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25);outline: none;background: #111827dd}.btn-glow-primary{background: linear-gradient(95deg, #4F46E5, #7C3AED);border: none;box-shadow: 0 8px 20px -8px rgba(79, 70, 229, 0.5);transition: transform 0.2s, box-shadow 0.2s}.btn-glow-primary:hover{transform: translateY(-3px);background: linear-gradient(95deg, #6366F1, #8B5CF6);box-shadow: 0 15px 25px -10px #6D28D9}.btn-glass-secondary{background: rgba(30, 41, 59, 0.6);backdrop-filter: blur(8px);border: 1px solid #334155;transition: all 0.2s}.btn-glass-secondary:hover{background: #2D3A52cc;border-color: #A78BFA;transform: translateY(-2px);box-shadow: 0 6px 14px -6px #00000050}.word-chip-premium{background: #0B1120cc;border: 1px solid #25324B;color: #E2E8F0;transition: all 0.18s ease;border-radius: 2rem}.word-chip-premium:hover{background: #1E293B;border-color: #C084FC;transform: scale(1.02);box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);color: white}.filter-pill{background: #0F172Acc;border: 1px solid #334155;color: #CBD5E1;transition: all 0.2s;border-radius: 40px}.filter-pill.active{background: #4F46E5;border-color: #C084FC;color: white;box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4)}.hl-depan{background: linear-gradient(120deg, #10B98140, #05966960);font-weight: 700;border-radius: 20px;padding: 0 6px;color: #A7F3D0}.hl-belakang{background: linear-gradient(120deg, #F59E0B40, #D9770640);font-weight: 700;border-radius: 20px;padding: 0 6px;color: #FDE68A}.hl-semua{background: linear-gradient(120deg, #8B5CF660, #A78BFA60);font-weight: 700;border-radius: 20px;padding: 0 6px;color: #E9D5FF}.shimmer-premium{background: linear-gradient(90deg, #1E293B 0%, #4F46E5 40%, #A855F7 70%, #1E293B 100%);background-size: 200% 100%;animation: shimmerFlow 1.3s infinite ease}@keyframes shimmerFlow{0%{background-position: 200% 0}100%{background-position: -200% 0}}.custom-scrollbar::-webkit-scrollbar{width: 5px}.custom-scrollbar::-webkit-scrollbar-track{background: #111827;border-radius: 10px}.custom-scrollbar::-webkit-scrollbar-thumb{background: #6B7280;border-radius: 10px}.loading-overlay{position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(3, 5, 11, 0.95);backdrop-filter: blur(16px);z-index: 9999;display: flex;align-items: center;justify-content: center;flex-direction: column;gap: 1.5rem;transition: opacity 0.4s ease, visibility 0.4s}.loading-overlay.hidden{opacity: 0;visibility: hidden}.loading-spinner{width: 60px;height: 60px;border: 3px solid rgba(139, 92, 246, 0.2);border-top: 3px solid #8B5CF6;border-right: 3px solid #A855F7;border-radius: 50%;animation: spin 0.8s linear infinite}@keyframes spin{0%{transform: rotate(0deg)}100%{transform: rotate(360deg)}}.loading-text{font-size: 1rem;font-weight: 500;background: linear-gradient(135deg, #C084FC, #818CF8);background-clip: text;-webkit-background-clip: text;color: transparent;letter-spacing: 0.5px}button:active{transform: scale(0.97)}</style></head><body class="p-5 md:p-8 min-h-screen"><div id="loadingOverlay" class="loading-overlay"><div class="loading-spinner"></div><div class="loading-text flex items-center gap-3"><i class="fas fa-database"></i><span id="loadingMessage">Memuat data kamus...</span></div><div class="text-xs text-slate-400 mt-2">Savemeours Kata · Mesin Pencari Kata</div></div><div class="max-w-7xl mx-auto relative z-10"><div class="mb-10 space-y-5"><div class="flex flex-wrap gap-3 items-center"><div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40 shadow-md"><i class="fas fa-brain text-indigo-300"></i><span>Kamus Cerdas</span></div><div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40"><i class="fas fa-chart-line text-indigo-300"></i><span>Pencarian Cepat</span></div><div class="flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full py-2 pl-4 pr-5 text-xs font-bold tracking-wide text-indigo-200 border border-indigo-400/40"><i class="fas fa-sliders-h"></i><span>Penyortiran Dinamis</span></div></div><h1 class="font-extrabold text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-tight bg-gradient-to-r from-indigo-200 via-purple-100 to-violet-300 bg-clip-text text-transparent drop-shadow-2xl">Savemeours<span class="bg-gradient-to-r from-white to-indigo-300 bg-clip-text">Kata</span></h1><div class="flex items-center gap-3 text-indigo-200/90 border-l-4 border-violet-500 pl-5 text-sm md:text-base font-medium"><i class="fas fa-magic fa-fw text-violet-400"></i><span>Lebih dari 26.000 kata dalam database · Cari berdasarkan awalan, akhiran, atau bagian kata</span></div></div><div class="glass-premium rounded-3xl p-6 md:p-9 transition-all duration-300 shadow-2xl"><div class="flex flex-wrap items-center justify-between gap-4 bg-black/30 backdrop-blur-md rounded-2xl py-3.5 px-6 mb-8 border border-indigo-500/30 shadow-inner"><div class="flex items-center gap-3 text-sm font-semibold text-slate-200"><i class="fas fa-cloud-upload-alt text-indigo-400"></i><span id="dictStatusText" class="flex items-center gap-2"><i class="fas fa-spinner fa-pulse"></i>memuat kamus...</span></div><div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-full px-5 py-1.5 text-sm font-bold tracking-wide shadow-lg backdrop-blur-sm flex items-center gap-2"><i class="far fa-bookmark"></i><span id="dictCountPill">0 entri</span></div></div><div id="inputSection" class="hidden transition-all duration-500"><div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 shadow-2xl mb-7"><div class="flex items-center gap-3 mb-5"><div class="bg-indigo-500/30 w-10 h-10 rounded-xl flex items-center justify-center text-indigo-300 backdrop-blur-sm"><i class="fas fa-pen-ruler"></i></div><span class="text-xs font-bold uppercase tracking-wider text-indigo-300 bg-indigo-950/40 px-3 py-1 rounded-full flex items-center gap-1"><i class="fas fa-keyboard"></i>Penyusun Kueri</span></div><textarea id="keywordTextarea" rows="2" class="w-full input-neo p-4 font-mono text-sm resize-none focus:ring-0" placeholder="Masukkan kata kunci, pisahkan dengan koma atau baris baru&#10;Contoh: a, buku, mang, terang, kan">a, buku, mang</textarea><div class="flex flex-wrap gap-3 mt-4"><button data-demo="a, buku, mang" class="quick-demo bg-slate-800/60 border border-slate-700 text-slate-300 text-xs rounded-full px-5 py-2 transition-all hover:bg-slate-700 flex items-center gap-2"><i class="far fa-clock"></i>Contoh Awal</button><button data-demo="an, kan, i, man" class="quick-demo bg-slate-800/60 border border-slate-700 text-slate-300 text-xs rounded-full px-5 py-2 transition-all flex items-center gap-2"><i class="fas fa-flag-checkered"></i>Akhiran Populer</button><button data-demo="ber, me, per, di" class="quick-demo bg-slate-800/60 border border-slate-700 text-slate-300 text-xs rounded-full px-5 py-2 transition-all flex items-center gap-2"><i class="fas fa-redo-alt"></i>Awalan Umum</button></div><div id="searchProgressBar" class="mt-5 h-1.5 bg-slate-800/70 rounded-full overflow-hidden hidden"><div class="shimmer-premium w-full h-full rounded-full"></div></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-7"><button id="btnAwalan" class="btn-glass-secondary flex items-center justify-center gap-3 rounded-xl py-3.5 font-bold transition-all shadow-md"><i class="fas fa-arrow-left"></i>Berawalan</button><button id="btnAkhiran" class="btn-glass-secondary flex items-center justify-center gap-3 rounded-xl py-3.5 font-bold transition-all shadow-md"><i class="fas fa-arrow-right"></i>Berakhiran</button><button id="btnMengandung" class="btn-glow-primary flex items-center justify-center gap-3 rounded-xl py-3.5 font-bold transition-all shadow-xl"><i class="fas fa-project-diagram"></i>Mengandung</button></div></div></div><div id="resultsArea" class="hidden transition-all duration-500 ease-out"><div class="card-elevated rounded-2xl p-6 border border-indigo-500/20 backdrop-blur-sm"><div class="flex flex-wrap justify-between items-center gap-3 mb-5"><div class="flex items-center gap-3"><i class="fas fa-history text-2xl text-indigo-400"></i><h2 class="text-2xl md:text-3xl font-bold font-['Plus Jakarta Sans'] text-white tracking-tight"><span id="modeLabel">Hasil Pencarian</span></h2></div><div class="bg-indigo-950/50 rounded-full px-5 py-2.5 shadow-sm text-sm font-bold text-indigo-200 border border-indigo-400/40 flex items-center gap-2 backdrop-blur-sm"><i class="fas fa-cube"></i><span id="totalWordsBadge">0 kata</span></div></div><div id="sortingChipsContainer" class="flex flex-wrap gap-2.5 mb-6 pb-2 border-b border-indigo-500/20"></div><div id="vocabScrollContainer" class="max-h-[580px] overflow-y-auto custom-scrollbar pr-2 space-y-6"></div><div id="emptyResultMessage" class="hidden text-center py-14 text-slate-400 flex flex-col items-center gap-3"><i class="fas fa-compass fa-4x text-indigo-500/50"></i><p class="font-medium text-lg">Tidak ditemukan kata yang cocok</p><p class="text-xs">Coba gunakan kata kunci lain atau mode pencarian yang berbeda ✨</p></div></div></div><div class="mt-10 text-center text-slate-500 text-xs flex justify-center gap-6 border-t border-indigo-500/20 pt-6"><i class="far fa-copyright"></i>Savemeours Kata · Database Semantik ·<span class="text-indigo-300 font-mono">Edisi Nusantara</span></div></div></div><script>!function(){let e=[],t=!1;const n=document.getElementById("dictStatusText"),a=document.getElementById("dictCountPill"),s=document.getElementById("inputSection"),i=document.getElementById("resultsArea"),l=document.getElementById("keywordTextarea"),r=document.getElementById("searchProgressBar"),o=document.getElementById("btnAwalan"),d=document.getElementById("btnAkhiran"),c=document.getElementById("btnMengandung"),u=document.getElementById("modeLabel"),m=document.getElementById("totalWordsBadge"),g=document.getElementById("sortingChipsContainer"),f=document.getElementById("vocabScrollContainer"),p=document.getElementById("emptyResultMessage"),h=document.getElementById("loadingOverlay"),k=document.getElementById("loadingMessage");let b={},y="depan",x={};function E(e="Memproses..."){k&&(k.innerText=e),h&&h.classList.remove("hidden")}function v(){h&&h.classList.add("hidden")}function L(e,t,n){return"depan"===n?e.filter(e=>e.startsWith(t)):"belakang"===n?e.filter(e=>e.endsWith(t)):e.filter(e=>e.includes(t))}function w(e,t,n){let a=-1;if("depan"===n?e.startsWith(t)&&(a=0):"belakang"===n?e.endsWith(t)&&(a=e.length-t.length):a=e.indexOf(t),-1===a)return e;let s="";return s="depan"===n?"hl-depan":"belakang"===n?"hl-belakang":"hl-semua",`${e.slice(0,a)}<span class="${s}">${e.slice(a,a+t.length)}</span>${e.slice(a+t.length)}`}function B(e){return e.replace(/[&<>]/g,function(e){return"&"===e?"&amp;":"<"===e?"&lt;":">"===e?"&gt;":e})}function T(){if(!b||0===Object.keys(b).length)return i.classList.remove("hidden"),p&&p.classList.remove("hidden"),f&&(f.innerHTML=""),g&&(g.innerHTML=""),void(m.innerText="0 kata");p&&p.classList.add("hidden");let e=0;const t=Object.keys(b);t.forEach(t=>{e+=b[t].length}),m.innerText=e.toLocaleString("id")+" kata",g.innerHTML="",t.forEach(e=>{const t=b[e].length,n=x[e]||null;let a='<i class="fas fa-sort-amount-down"></i>',s="";"asc"===n?(a='<i class="fas fa-sort-alpha-down"></i>',s="active"):"desc"===n&&(a='<i class="fas fa-sort-alpha-up"></i>',s="active");const i=document.createElement("button");i.className=`filter-pill flex items-center gap-2 text-sm font-medium rounded-full px-4 py-2 transition-all shadow-sm ${s}`,i.innerHTML=`${a} <span class="max-w-[140px] truncate font-mono">${B(e)}</span> <span class="bg-black/30 rounded-full px-2 py-0.5 text-xs font-bold ml-1">${t}</span>`,i.addEventListener("click",t=>{var n,a;t.stopPropagation(),x[e]?"asc"===x[e]?x[e]="desc":x[e]=null:x[e]="asc",b[e]=(n=b[e],(a=x[e])?"asc"===a?[...n].sort((e,t)=>e.localeCompare(t,"id")):"desc"===a?[...n].sort((e,t)=>t.localeCompare(e,"id")):[...n]:[...n]),T()}),g.appendChild(i)}),f.innerHTML="";for(let e of t){const t=b[e];if(!t.length)continue;const n=document.createElement("div");n.className="bg-black/20 rounded-xl p-4 border border-white/5 hover:border-indigo-500/30 transition-all duration-200 backdrop-blur-sm";const a=`wordGroup-${e.replace(/[^a-z0-9]/gi,"-")}`;n.innerHTML=`\n            <div class="flex items-center gap-2 mb-4 pb-2 border-b border-indigo-500/30">\n              <i class="fas fa-tag text-indigo-400"></i>\n              <h3 class="font-bold text-indigo-200 text-base font-mono tracking-wide">${B(e)}</h3>\n              <span class="text-xs bg-indigo-800/60 rounded-full px-2.5 py-0.5 font-semibold text-indigo-200 flex items-center gap-1"><i class="fas fa-copy"></i> ${t.length}</span>\n            </div>\n            <div class="flex flex-wrap gap-2.5" id="${a}"></div>\n          `;const s=n.querySelector(`#${a}`);t.forEach(t=>{const n=document.createElement("span");n.className="word-chip-premium inline-block rounded-full px-4 py-1.5 text-sm font-medium cursor-default shadow-sm transition-all duration-150",n.innerHTML=w(t,e,y),s.appendChild(n)}),f.appendChild(n)}i.classList.remove("hidden"),i.scrollIntoView({behavior:"smooth",block:"start"})}async function M(n){if(!t)return void alert("Kamus sedang dimuat, silakan tunggu sebentar.");const a=l.value.split(/[,\n]+/).map(e=>e.trim().toLowerCase().replace(/[^a-z]/g,"")).filter(e=>e.length>0);if(0===a.length)return void alert("Masukkan minimal satu kata kunci (pisahkan dengan koma atau baris baru)");E(`Mencari dengan mode ${"depan"===n?"Berawalan":"belakang"===n?"Berakhiran":"Mengandung"}...`),r.classList.remove("hidden");const s=[o,d,c];s.forEach(e=>e.disabled=!0),await new Promise(e=>setTimeout(e,30));try{const t={};for(let s of a){let a=L(e,s,n);a=[...new Set(a)],a.sort((e,t)=>e.localeCompare(t,"id")),t[s]=a}b=t,y=n;const s={};a.forEach(e=>{s[e]=null}),x=s;let i="";i="depan"===n?"🔍 Berawalan · Pencarian Awal Kata":"belakang"===n?"⚡ Berakhiran · Pencarian Akhir Kata":"🌀 Mengandung · Pencarian Substring",u.innerText=i}finally{r.classList.add("hidden"),s.forEach(e=>e.disabled=!1),T(),v()}}(async function(){try{E("Menghubungkan ke database kamus..."),n.innerHTML='<i class="fas fa-spinner fa-pulse"></i> menghubungkan ke database...';const i=await fetch("https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt");if(!i.ok)throw new Error(`HTTP ${i.status}`);const l=(await i.text()).split(/\r?\n/).map(e=>e.trim().toLowerCase().replace(/[^a-z]/g,"")).filter(e=>e.length>0&&e.length<=30);e=[...new Set(l)].filter(e=>/^[a-z]+$/.test(e));const r=e.length;a.innerText=r.toLocaleString("id")+" entri",n.innerHTML=`<i class="fas fa-check-circle text-emerald-400"></i> database siap · ${r.toLocaleString("id")} kata unik`,s.classList.remove("hidden"),t=!0,v()}catch(e){console.error(e),n.innerHTML='<i class="fas fa-exclamation-circle text-red-400"></i> gagal memuat kamus, segarkan halaman',a.innerText="gagal",v(),alert("Gagal memuat kamus. Periksa koneksi internet Anda.")}})().then(()=>{o.addEventListener("click",()=>M("depan")),d.addEventListener("click",()=>M("belakang")),c.addEventListener("click",()=>M("semua")),document.querySelectorAll(".quick-demo").forEach(e=>{e.addEventListener("click",()=>{const t=e.getAttribute("data-demo");t&&(l.value=t)})}),l.addEventListener("keydown",e=>{(e.ctrlKey||e.metaKey)&&"Enter"===e.key&&(e.preventDefault(),M("semua"))})}).catch(e=>{console.warn(e),v()})}();</script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Savemeours Kata · Kamus Cerdas Nusantara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg-void: #04060D;
+    --bg-deep: #080C18;
+    --bg-surface: #0D1225;
+    --bg-raised: #131929;
+    --border-dim: rgba(255,255,255,0.06);
+    --border-mid: rgba(255,255,255,0.11);
+    --border-bright: rgba(139,108,255,0.45);
+    --accent-violet: #7C5CFC;
+    --accent-indigo: #4F6EF7;
+    --accent-cyan: #22D3EE;
+    --accent-amber: #F59E0B;
+    --accent-emerald: #10B981;
+    --text-primary: #F0EFFF;
+    --text-secondary: #A8A4C8;
+    --text-muted: #5A5675;
+    --glow-violet: rgba(124,92,252,0.35);
+    --glow-indigo: rgba(79,110,247,0.25);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-pill: 999px;
+    --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+    --ease-smooth: cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Syne', system-ui, sans-serif;
+    background: var(--bg-void);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background Atmosphere ── */
+  .bg-scene {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  }
+  .bg-orb {
+    position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.18;
+    animation: orbFloat 14s ease-in-out infinite alternate;
+  }
+  .bg-orb-1 { width: 700px; height: 700px; background: var(--accent-violet); top:-200px; left:-200px; animation-delay:0s; }
+  .bg-orb-2 { width: 500px; height: 500px; background: var(--accent-indigo); bottom:-150px; right:-100px; animation-delay:-5s; }
+  .bg-orb-3 { width: 350px; height: 350px; background: var(--accent-cyan); top:40%; right:15%; animation-delay:-9s; opacity:0.09; }
+  .bg-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  @keyframes orbFloat {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(40px,30px) scale(1.08); }
+  }
+
+  /* ── Layout ── */
+  .page-wrap { max-width: 1080px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+
+  /* ── Header ── */
+  .header { margin-bottom: 52px; }
+  .header-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim);
+    backdrop-filter: blur(8px); border-radius: var(--radius-pill);
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .badge:hover { border-color: var(--border-bright); color: var(--text-primary); }
+  .badge i { color: var(--accent-violet); }
+
+  .header-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3.8rem, 10vw, 7.5rem);
+    line-height: 0.93;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .title-light { color: var(--text-primary); }
+  .title-accent {
+    font-style: italic;
+    background: linear-gradient(130deg, #A78BFA 0%, #60A5FA 50%, #34D399 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .header-sub {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text-muted);
+    font-weight: 400;
+  }
+  .header-sub::before {
+    content: ''; display: block; width: 32px; height: 2px;
+    background: linear-gradient(90deg, var(--accent-violet), transparent);
+    border-radius: 2px; flex-shrink: 0;
+  }
+  .header-sub span { color: var(--accent-violet); }
+
+  /* ── Main Card ── */
+  .main-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03);
+  }
+
+  /* ── Status Bar ── */
+  .status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(255,255,255,0.025);
+    border-bottom: 1px solid var(--border-dim);
+    gap: 12px; flex-wrap: wrap;
+  }
+  .status-indicator {
+    display: flex; align-items: center; gap: 9px;
+    font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-muted);
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted);
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .status-dot.ready { background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald); animation: pulse-dot 2.5s ease-in-out infinite; }
+  .status-dot.loading { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); animation: pulse-dot 1s ease-in-out infinite; }
+  .status-dot.error { background: #F87171; }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .entry-pill {
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+    background: var(--bg-raised); border: 1px solid var(--border-mid);
+    border-radius: var(--radius-pill); padding: 5px 14px;
+    color: var(--text-secondary); letter-spacing: 0.04em;
+    transition: all 0.3s;
+  }
+  .entry-pill.loaded { border-color: rgba(124,92,252,0.3); color: var(--accent-violet); }
+
+  /* ── Input Section ── */
+  .input-section {
+    padding: 32px 28px;
+    display: none;
+    animation: fadeSlideIn 0.4s var(--ease-smooth);
+  }
+  .input-section.visible { display: block; }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .input-label {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .input-label i { color: var(--accent-violet); }
+
+  textarea.keyword-input {
+    width: 100%;
+    background: var(--bg-deep);
+    border: 1.5px solid var(--border-mid);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--text-primary);
+    resize: vertical;
+    min-height: 90px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.7;
+  }
+  textarea.keyword-input::placeholder { color: var(--text-muted); }
+  textarea.keyword-input:focus {
+    border-color: var(--border-bright);
+    box-shadow: 0 0 0 4px rgba(124,92,252,0.12);
+  }
+
+  /* ── Quick Demo Chips ── */
+  .quick-demos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .demo-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent; border: 1px solid var(--border-dim);
+    border-radius: var(--radius-pill); padding: 6px 14px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted);
+    cursor: pointer; transition: all 0.18s; font-weight: 400;
+  }
+  .demo-chip:hover { border-color: var(--border-bright); color: var(--text-primary); background: rgba(124,92,252,0.08); }
+  .demo-chip i { font-size: 10px; }
+
+  /* ── Search Progress Bar ── */
+  .progress-track {
+    height: 2px; background: var(--border-dim); border-radius: 2px;
+    margin-top: 20px; overflow: hidden; display: none;
+  }
+  .progress-track.visible { display: block; }
+  .progress-bar {
+    height: 100%; width: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-violet), var(--accent-cyan), transparent);
+    background-size: 200% 100%;
+    animation: sweep 1.2s linear infinite;
+  }
+  @keyframes sweep { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* ── Action Buttons ── */
+  .action-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px; margin-top: 24px;
+  }
+  @media (max-width: 580px) { .action-grid { grid-template-columns: 1fr; } }
+
+  .action-btn {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    padding: 14px 20px; border-radius: var(--radius-md);
+    font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.22s var(--ease-smooth);
+    border: none; letter-spacing: 0.01em;
+  }
+  .action-btn:active { transform: scale(0.96); }
+  .action-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .btn-start {
+    background: var(--bg-raised); border: 1px solid var(--border-mid);
+    color: var(--text-secondary);
+  }
+  .btn-start:hover:not(:disabled) {
+    border-color: var(--border-bright); color: var(--text-primary);
+    background: rgba(124,92,252,0.1);
+    box-shadow: 0 0 20px -8px var(--glow-violet);
+  }
+  .btn-contain {
+    background: linear-gradient(135deg, var(--accent-violet) 0%, var(--accent-indigo) 100%);
+    color: #fff;
+    box-shadow: 0 8px 24px -8px var(--glow-violet), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  .btn-contain:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -8px var(--glow-violet), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  /* ── Results Section ── */
+  .results-section {
+    padding: 0 28px 32px; display: none;
+    animation: fadeSlideIn 0.35s var(--ease-smooth);
+  }
+  .results-section.visible { display: block; }
+
+  .results-divider {
+    height: 1px; background: var(--border-dim); margin-bottom: 28px;
+  }
+
+  .results-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .results-title {
+    font-family: 'Instrument Serif', serif; font-size: 2rem;
+    font-style: italic; color: var(--text-primary); line-height: 1.2;
+  }
+  .results-meta {
+    display: flex; align-items: center; gap: 8px; margin-top: 4px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted);
+  }
+  .results-meta .count-badge {
+    background: rgba(124,92,252,0.15); border: 1px solid rgba(124,92,252,0.3);
+    border-radius: var(--radius-pill); padding: 4px 12px;
+    color: var(--accent-violet); font-size: 12px; font-weight: 500;
+  }
+
+  /* ── Sort Chips ── */
+  .sort-bar {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding-bottom: 20px; border-bottom: 1px solid var(--border-dim);
+    margin-bottom: 24px;
+  }
+  .sort-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--bg-raised); border: 1px solid var(--border-dim);
+    border-radius: var(--radius-pill); padding: 6px 14px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted);
+    cursor: pointer; transition: all 0.18s; font-weight: 400;
+  }
+  .sort-chip:hover { border-color: var(--border-bright); color: var(--text-primary); }
+  .sort-chip.active {
+    background: rgba(124,92,252,0.15); border-color: rgba(124,92,252,0.5);
+    color: #C4B5FD;
+  }
+  .sort-chip .chip-count {
+    background: rgba(255,255,255,0.08); border-radius: var(--radius-pill);
+    padding: 2px 7px; font-size: 10px;
+  }
+  .sort-chip.active .chip-count {
+    background: rgba(124,92,252,0.3);
+  }
+
+  /* ── Word Groups ── */
+  .vocab-scroll {
+    max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
+  }
+  .vocab-scroll::-webkit-scrollbar { width: 4px; }
+  .vocab-scroll::-webkit-scrollbar-track { background: transparent; }
+  .vocab-scroll::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 4px; }
+
+  .word-group {
+    background: var(--bg-deep);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    transition: border-color 0.2s;
+  }
+  .word-group:hover { border-color: var(--border-mid); }
+
+  .group-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .group-keyword {
+    font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500;
+    color: var(--text-primary); flex: 1;
+  }
+  .group-kw-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-right: auto;
+  }
+  .group-count {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--text-muted); padding: 3px 10px;
+    background: var(--bg-raised); border-radius: var(--radius-pill);
+    border: 1px solid var(--border-dim);
+  }
+
+  .word-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .word-chip {
+    display: inline-block; border-radius: var(--radius-pill);
+    padding: 6px 14px; font-family: 'DM Mono', monospace;
+    font-size: 12.5px; font-weight: 400;
+    background: var(--bg-surface); border: 1px solid var(--border-dim);
+    color: var(--text-secondary); cursor: default;
+    transition: all 0.15s var(--ease-smooth);
+    user-select: none;
+  }
+  .word-chip:hover {
+    border-color: var(--border-bright); color: var(--text-primary);
+    transform: translateY(-1px); box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4);
+  }
+
+  /* ── Highlight Styles ── */
+  .hl-depan    { color: #6EE7B7; font-weight: 600; }
+  .hl-belakang { color: #FCD34D; font-weight: 600; }
+  .hl-semua    { color: #C4B5FD; font-weight: 600; }
+
+  /* ── Empty State ── */
+  .empty-state {
+    display: none; text-align: center;
+    padding: 64px 24px; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .empty-state.visible { display: flex; }
+  .empty-icon {
+    width: 64px; height: 64px; border-radius: 20px;
+    background: var(--bg-raised); border: 1px solid var(--border-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: var(--text-muted); margin-bottom: 8px;
+  }
+  .empty-state h3 { font-size: 1.1rem; color: var(--text-secondary); font-weight: 600; }
+  .empty-state p { font-size: 13px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+
+  /* ── Loading Overlay ── */
+  .loading-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(4,6,13,0.94); backdrop-filter: blur(20px);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 18px;
+    transition: opacity 0.4s, visibility 0.4s;
+  }
+  .loading-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  .loader-ring {
+    width: 52px; height: 52px; position: relative;
+  }
+  .loader-ring svg { width: 100%; height: 100%; animation: spin 1s linear infinite; }
+  .loader-ring circle {
+    fill: none; stroke-width: 3; stroke-linecap: round;
+    stroke: url(#loaderGrad);
+    stroke-dasharray: 120 40;
+  }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  .loader-text {
+    font-family: 'DM Mono', monospace; font-size: 13px;
+    color: var(--text-muted); letter-spacing: 0.04em;
+  }
+  .loader-brand {
+    font-family: 'Instrument Serif', serif; font-style: italic;
+    font-size: 11px; color: var(--text-muted); opacity: 0.5; letter-spacing: 0.08em;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center; margin-top: 60px;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--text-muted); letter-spacing: 0.06em;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-dot { color: var(--border-mid); }
+  .footer a { color: var(--accent-violet); text-decoration: none; }
+
+  /* ── Tooltip-like shortcut hint ── */
+  .shortcut-hint {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--text-muted); margin-top: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  kbd {
+    background: var(--bg-raised); border: 1px solid var(--border-mid);
+    border-radius: 4px; padding: 2px 6px; font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--text-secondary);
+  }
+
+  /* ── Mode Tag ── */
+  .mode-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: var(--radius-pill);
+    font-weight: 600;
+  }
+  .mode-tag.depan    { background: rgba(16,185,129,0.12); color: var(--accent-emerald); border: 1px solid rgba(16,185,129,0.25); }
+  .mode-tag.belakang { background: rgba(245,158,11,0.12); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.25); }
+  .mode-tag.semua    { background: rgba(124,92,252,0.12); color: #A78BFA; border: 1px solid rgba(124,92,252,0.25); }
+
+  @media (max-width: 640px) {
+    .page-wrap { padding: 24px 14px 60px; }
+    .input-section, .results-section { padding-left: 18px; padding-right: 18px; }
+    .status-bar { padding: 12px 18px; }
+    .header-title { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background Atmosphere -->
+<div class="bg-scene" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+  <div class="bg-grid"></div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay" role="status" aria-live="polite">
+  <div class="loader-ring">
+    <svg viewBox="0 0 52 52">
+      <defs>
+        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7C5CFC"/>
+          <stop offset="100%" stop-color="#22D3EE"/>
+        </linearGradient>
+      </defs>
+      <circle cx="26" cy="26" r="22"/>
+    </svg>
+  </div>
+  <div id="loadingMessage" class="loader-text">Memuat data kamus…</div>
+  <div class="loader-brand">Savemeours Kata · Kamus Cerdas Nusantara</div>
+</div>
+
+<!-- Page -->
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-badges">
+      <span class="badge"><i class="fas fa-database"></i> 26.000+ Kata</span>
+      <span class="badge"><i class="fas fa-bolt"></i> Pencarian Instan</span>
+      <span class="badge"><i class="fas fa-sort-alpha-down"></i> Sortir Dinamis</span>
+    </div>
+
+    <h1 class="header-title">
+      <span class="title-light">Savemeours</span><br>
+      <span class="title-accent">Kata</span>
+    </h1>
+
+    <p class="header-sub">
+      <span>Kamus Cerdas Nusantara</span>
+      · Cari berdasarkan awalan, akhiran, atau bagian kata
+    </p>
+  </header>
+
+  <!-- Main Card -->
+  <div class="main-card">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-indicator">
+        <div id="statusDot" class="status-dot loading"></div>
+        <span id="dictStatusText" style="font-family:'DM Mono',monospace;font-size:12px;">menghubungkan ke database…</span>
+      </div>
+      <div id="dictCountPill" class="entry-pill">— entri</div>
+    </div>
+
+    <!-- Input Section -->
+    <div id="inputSection" class="input-section">
+
+      <div class="input-label">
+        <i class="fas fa-keyboard"></i>
+        <span>Kata Kunci Pencarian</span>
+      </div>
+
+      <textarea
+        id="keywordTextarea"
+        class="keyword-input"
+        rows="3"
+        placeholder="Masukkan kata kunci, pisahkan dengan koma atau baris baru&#10;Contoh: a, buku, mang, terang, kan"
+        spellcheck="false"
+        autocomplete="off"
+      ></textarea>
+
+      <div class="quick-demos">
+        <span class="demo-chip" data-demo="a, buku, mang">
+          <i class="fas fa-clock-rotate-left"></i> Contoh awal
+        </span>
+        <span class="demo-chip" data-demo="an, kan, i, man">
+          <i class="fas fa-flag-checkered"></i> Akhiran populer
+        </span>
+        <span class="demo-chip" data-demo="ber, me, per, di">
+          <i class="fas fa-redo"></i> Awalan umum
+        </span>
+        <span class="demo-chip" data-demo="cinta, kasih, sayang">
+          <i class="fas fa-heart"></i> Kata hati
+        </span>
+      </div>
+
+      <div id="searchProgressBar" class="progress-track">
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="action-grid">
+        <button id="btnAwalan" class="action-btn btn-start" title="Cari kata yang berawalan dengan kata kunci">
+          <i class="fas fa-arrow-right-to-bracket"></i> Berawalan
+        </button>
+        <button id="btnAkhiran" class="action-btn btn-start" title="Cari kata yang berakhiran dengan kata kunci">
+          <i class="fas fa-arrow-right-from-bracket"></i> Berakhiran
+        </button>
+        <button id="btnMengandung" class="action-btn btn-contain" title="Cari kata yang mengandung kata kunci (Ctrl+Enter)">
+          <i class="fas fa-magnifying-glass"></i> Mengandung
+        </button>
+      </div>
+
+      <div class="shortcut-hint">
+        <kbd>Ctrl</kbd>+<kbd>Enter</kbd>
+        <span>untuk Mengandung · </span>
+        <kbd>Alt</kbd>+<kbd>A</kbd> Berawalan ·
+        <kbd>Alt</kbd>+<kbd>Z</kbd> Berakhiran
+      </div>
+
+    </div><!-- /input-section -->
+
+    <!-- Results Section -->
+    <div id="resultsArea" class="results-section">
+      <div class="results-divider"></div>
+
+      <div class="results-header">
+        <div>
+          <div id="modeTagContainer"></div>
+          <h2 id="modeLabel" class="results-title" style="margin-top:6px;">Hasil Pencarian</h2>
+        </div>
+        <div class="results-meta">
+          <div id="totalWordsBadge" class="count-badge">0 kata</div>
+        </div>
+      </div>
+
+      <div id="sortingChipsContainer" class="sort-bar"></div>
+
+      <div id="vocabScrollContainer" class="vocab-scroll"></div>
+
+      <div id="emptyResultMessage" class="empty-state">
+        <div class="empty-icon"><i class="fas fa-compass"></i></div>
+        <h3>Tidak ada kata yang cocok</h3>
+        <p>Coba kata kunci lain atau mode pencarian berbeda</p>
+      </div>
+    </div><!-- /results-section -->
+
+  </div><!-- /main-card -->
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>© Savemeours Kata</span>
+    <span class="footer-dot">·</span>
+    <span>Database Semantik</span>
+    <span class="footer-dot">·</span>
+    <span>Edisi Nusantara</span>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<script>
+(function () {
+  'use strict';
+
+  // ── State ──────────────────────────────────────────────
+  let dictionary = [];        // all words
+  let dictReady  = false;
+  let currentResults = {};    // { keyword: [words] }
+  let currentMode    = 'semua';
+  let sortState      = {};    // { keyword: null|'asc'|'desc' }
+
+  // ── DOM refs ───────────────────────────────────────────
+  const $  = id => document.getElementById(id);
+  const el = {
+    overlay:      $('loadingOverlay'),
+    loadMsg:      $('loadingMessage'),
+    statusDot:    $('statusDot'),
+    statusText:   $('dictStatusText'),
+    countPill:    $('dictCountPill'),
+    inputSection: $('inputSection'),
+    resultsArea:  $('resultsArea'),
+    textarea:     $('keywordTextarea'),
+    progressBar:  $('searchProgressBar'),
+    btnStart:     $('btnAwalan'),
+    btnEnd:       $('btnAkhiran'),
+    btnContain:   $('btnMengandung'),
+    modeTagBox:   $('modeTagContainer'),
+    modeLabel:    $('modeLabel'),
+    totalBadge:   $('totalWordsBadge'),
+    sortBar:      $('sortingChipsContainer'),
+    vocabScroll:  $('vocabScrollContainer'),
+    emptyMsg:     $('emptyResultMessage'),
+  };
+
+  // ── Loader helpers ─────────────────────────────────────
+  function showLoader(msg) {
+    el.loadMsg.textContent = msg || 'Memuat…';
+    el.overlay.classList.remove('hidden');
+  }
+  function hideLoader() {
+    el.overlay.classList.add('hidden');
+  }
+  function setStatus(type, text) {
+    el.statusDot.className = 'status-dot ' + type;
+    el.statusText.textContent = text;
+  }
+
+  // ── Escape HTML ────────────────────────────────────────
+  function esc(str) {
+    return str.replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]
+    );
+  }
+
+  // ── Search logic ───────────────────────────────────────
+  function filterWords(words, kw, mode) {
+    switch (mode) {
+      case 'depan':    return words.filter(w => w.startsWith(kw));
+      case 'belakang': return words.filter(w => w.endsWith(kw));
+      default:         return words.filter(w => w.includes(kw));
+    }
+  }
+
+  // ── Highlight match ────────────────────────────────────
+  function highlight(word, kw, mode) {
+    let idx = -1;
+    if (mode === 'depan' && word.startsWith(kw)) idx = 0;
+    else if (mode === 'belakang' && word.endsWith(kw)) idx = word.length - kw.length;
+    else idx = word.indexOf(kw);
+    if (idx === -1) return esc(word);
+    const cls = { depan:'hl-depan', belakang:'hl-belakang', semua:'hl-semua' }[mode] || 'hl-semua';
+    return esc(word.slice(0, idx))
+      + `<span class="${cls}">${esc(word.slice(idx, idx + kw.length))}</span>`
+      + esc(word.slice(idx + kw.length));
+  }
+
+  // ── Parse keywords from textarea ───────────────────────
+  function getKeywords() {
+    return el.textarea.value
+      .split(/[,\n]+/)
+      .map(s => s.trim().toLowerCase().replace(/[^a-z]/g, ''))
+      .filter(s => s.length > 0);
+  }
+
+  // ── Sort words ─────────────────────────────────────────
+  function sortWords(arr, state) {
+    if (state === 'asc')  return [...arr].sort((a,b) => a.localeCompare(b,'id'));
+    if (state === 'desc') return [...arr].sort((a,b) => b.localeCompare(a,'id'));
+    return arr;
+  }
+
+  // ── Render results ─────────────────────────────────────
+  function renderResults() {
+    const keys = Object.keys(currentResults);
+    let totalWords = 0;
+    keys.forEach(k => { totalWords += currentResults[k].length; });
+
+    el.totalBadge.textContent = totalWords.toLocaleString('id') + ' kata';
+
+    // Mode tag
+    const modeInfo = {
+      depan:    { label: 'Berawalan', cls: 'depan',    icon: 'fa-arrow-right-to-bracket' },
+      belakang: { label: 'Berakhiran', cls: 'belakang', icon: 'fa-arrow-right-from-bracket' },
+      semua:    { label: 'Mengandung', cls: 'semua',    icon: 'fa-magnifying-glass' },
+    }[currentMode] || { label: '', cls: '', icon: 'fa-search' };
+
+    el.modeTagBox.innerHTML = `<span class="mode-tag ${modeInfo.cls}">
+      <i class="fas ${modeInfo.icon}"></i> ${modeInfo.label}
+    </span>`;
+    el.modeLabel.textContent = 'Hasil Pencarian';
+
+    // Sort bar
+    el.sortBar.innerHTML = '';
+    keys.forEach(kw => {
+      const count = currentResults[kw].length;
+      const state = sortState[kw] || null;
+      const icon  = state === 'asc'  ? 'fa-sort-alpha-down'
+                  : state === 'desc' ? 'fa-sort-alpha-up-alt'
+                  : 'fa-sort';
+      const chip = document.createElement('button');
+      chip.className = 'sort-chip' + (state ? ' active' : '');
+      chip.innerHTML = `<i class="fas ${icon}"></i><span>${esc(kw)}</span><span class="chip-count">${count}</span>`;
+      chip.title = `Urutkan hasil untuk "${kw}"`;
+      chip.addEventListener('click', () => {
+        if (!sortState[kw] || sortState[kw] === null) sortState[kw] = 'asc';
+        else if (sortState[kw] === 'asc') sortState[kw] = 'desc';
+        else sortState[kw] = null;
+        renderResults();
+      });
+      el.sortBar.appendChild(chip);
+    });
+
+    // Word groups
+    el.vocabScroll.innerHTML = '';
+    let anyResults = false;
+
+    keys.forEach(kw => {
+      const rawWords = currentResults[kw];
+      if (!rawWords.length) return;
+      anyResults = true;
+      const words = sortWords(rawWords, sortState[kw]);
+
+      const group = document.createElement('div');
+      group.className = 'word-group';
+      group.innerHTML = `
+        <div class="group-header">
+          <span class="group-kw-label">kata kunci</span>
+          <span class="group-keyword">${esc(kw)}</span>
+          <span class="group-count">${words.length}</span>
+        </div>
+        <div class="word-chips" id="chips-${esc(kw.replace(/[^a-z0-9]/gi,'-'))}"></div>
+      `;
+      const chipBox = group.querySelector('.word-chips');
+      words.forEach(w => {
+        const chip = document.createElement('span');
+        chip.className = 'word-chip';
+        chip.innerHTML = highlight(w, kw, currentMode);
+        chip.title = w;
+        chipBox.appendChild(chip);
+      });
+      el.vocabScroll.appendChild(group);
+    });
+
+    if (anyResults) {
+      el.emptyMsg.classList.remove('visible');
+    } else {
+      el.emptyMsg.classList.add('visible');
+    }
+
+    el.resultsArea.classList.add('visible');
+    el.resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Run search ─────────────────────────────────────────
+  async function runSearch(mode) {
+    if (!dictReady) { alert('Kamus sedang dimuat, silakan tunggu sebentar.'); return; }
+
+    const kws = getKeywords();
+    if (!kws.length) { alert('Masukkan minimal satu kata kunci.'); return; }
+
+    showLoader(`Mencari dengan mode ${
+      mode === 'depan' ? 'Berawalan' : mode === 'belakang' ? 'Berakhiran' : 'Mengandung'
+    }…`);
+
+    el.progressBar.classList.add('visible');
+    [el.btnStart, el.btnEnd, el.btnContain].forEach(b => b.disabled = true);
+
+    await new Promise(r => setTimeout(r, 20)); // allow repaint
+
+    const results = {};
+    const newSort = {};
+    kws.forEach(kw => {
+      const found = filterWords(dictionary, kw, mode);
+      // deduplicate and stable sort by default
+      results[kw] = [...new Set(found)];
+      newSort[kw] = null;
+    });
+
+    currentResults = results;
+    currentMode    = mode;
+    sortState      = newSort;
+
+    el.progressBar.classList.remove('visible');
+    [el.btnStart, el.btnEnd, el.btnContain].forEach(b => b.disabled = false);
+    hideLoader();
+
+    renderResults();
+  }
+
+  // ── Load dictionary ────────────────────────────────────
+  async function loadDictionary() {
+    try {
+      showLoader('Menghubungkan ke database kamus…');
+      setStatus('loading', 'menghubungkan ke database…');
+
+      const res = await fetch(
+        'https://raw.githubusercontent.com/savemeours/savemeours.github.io/refs/heads/main/kamus.txt',
+        { cache: 'force-cache' }
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const raw = await res.text();
+      const words = raw
+        .split(/\r?\n/)
+        .map(w => w.trim().toLowerCase().replace(/[^a-z]/g, ''))
+        .filter(w => w.length >= 1 && w.length <= 30 && /^[a-z]+$/.test(w));
+
+      dictionary = [...new Set(words)];
+
+      const count = dictionary.length;
+      el.countPill.textContent = count.toLocaleString('id') + ' entri';
+      el.countPill.classList.add('loaded');
+      setStatus('ready', `database siap · ${count.toLocaleString('id')} kata unik`);
+
+      el.inputSection.classList.add('visible');
+      dictReady = true;
+      hideLoader();
+
+    } catch (err) {
+      console.error('[SavemeOurs] Failed to load dictionary:', err);
+      setStatus('error', 'gagal memuat kamus — segarkan halaman');
+      el.countPill.textContent = 'error';
+      hideLoader();
+      alert('Gagal memuat kamus. Periksa koneksi internet Anda, lalu segarkan halaman.');
+    }
+  }
+
+  // ── Event Listeners ────────────────────────────────────
+  function initEvents() {
+    el.btnStart.addEventListener('click',   () => runSearch('depan'));
+    el.btnEnd.addEventListener('click',     () => runSearch('belakang'));
+    el.btnContain.addEventListener('click', () => runSearch('semua'));
+
+    // Keyboard shortcuts
+    el.textarea.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault(); runSearch('semua');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.altKey && e.key === 'a') { e.preventDefault(); runSearch('depan'); }
+      if (e.altKey && e.key === 'z') { e.preventDefault(); runSearch('belakang'); }
+    });
+
+    // Quick demo chips
+    document.querySelectorAll('.demo-chip[data-demo]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        el.textarea.value = chip.dataset.demo;
+        el.textarea.focus();
+      });
+    });
+  }
+
+  // ── Bootstrap ──────────────────────────────────────────
+  initEvents();
+  loadDictionary();
+
+})();
+</script>
+</body>
+</html>
